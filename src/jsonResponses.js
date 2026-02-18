@@ -1,5 +1,5 @@
 const fs = require('fs');   //file system
-const { jsonData } = require("./htmlResponses")
+const { books } = require("./htmlResponses")
 
 const respond = (request, response, status, object)=> {
     const content = JSON.stringify(object);
@@ -14,8 +14,8 @@ const respond = (request, response, status, object)=> {
 }
 
 const getData = (request, response) =>{
-    //parseJSON();
-    const responseJSON = {jsonData};
+    //read the data from parsed JSON 
+    const responseJSON = {books};
     respond(request, response, 200, responseJSON);
 }
 
