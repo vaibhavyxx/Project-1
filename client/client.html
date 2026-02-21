@@ -9,6 +9,7 @@
         //test script
         const handleResponses = async (response) => {
             const content = document.querySelector('#content');
+            console.log("status"+ response.status);
             let phrase = "";
             switch(response.status){
                 case 200:
@@ -26,6 +27,11 @@
                 default:
                     phrase="Not implemented";
                     break;
+            }
+            content.innerHTML += phrase;
+            const obj = await response.json();
+            if(obj.message){
+                content.innerHTML += `<p>${obj.message}</p>`
             }
         };
 
@@ -46,6 +52,7 @@
         
             let formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
             formData = JSON.stringify({author, country, language, link, page, title, year, genres});
+            //console.log(formData);
 
             const response = await fetch(url, {
                 method: method,
@@ -56,6 +63,7 @@
                 },
                 body: formData,
             });
+            //console.log(response);
             handleResponses(response);
         }
 
@@ -63,6 +71,7 @@
         const form = document.querySelector('#bookForm');
 
         const addBook = (e) => {
+            //console.log("it should add book");
             e.preventDefault();
             sendPost(form);
             return false;
