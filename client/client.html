@@ -5,11 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
-    <script></script>
+    <script>
+        //test script
+        const handleResponses = async (response) => {
+            const content = document.querySelector('#content');
+            let phrase = "";
+            switch(response.status){
+                case 200:
+                    phrase="Success";
+                    break;
+                case 201:
+                    phrase="Created";
+                    break;
+                case 204:
+                    phrase="Updated";
+                    break;
+                case 400:
+                    phrase="Bad Request";
+                    break;
+                default:
+                    phrase="Not implemented";
+                    break;
+            }
+        };
+
+
+        const sendPost = async (bookForm) => {
+            const url = bookForm.getAttribute('action');
+            const method = bookForm.getAttribute('method');
+            const dataType = bookForm.querySelector('#dataType').value;
+
+            const author = bookForm.querySelector('#authorField').value;
+            const country = bookForm.querySelector('#countryField').value;
+            const language = bookForm.querySelector('#languageField').value;
+            const link = bookForm.querySelector('#linkField').value;
+            const page = bookForm.querySelector('#pageField').value;
+            const title = bookForm.querySelector('#titleField').value;
+            const year = bookForm.querySelector('#yearField').value;
+            const genres = bookForm.querySelector('#genresField').value;
+        
+            let formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
+            formData = JSON.stringify({author, country, language, link, page, title, year, genres});
+
+            const response = await fetch(url, {
+                method: method,
+                headers:{
+                    'Content-Type': dataType,
+                    'Content-Length': bookForm.length,
+                    'Accept': 'application/json',
+                },
+                body: formData,
+            });
+            handleResponses(response);
+        }
+
+    const init = () => {
+        const form = document.querySelector('#bookForm');
+
+        const addBook = (e) => {
+            e.preventDefault();
+            sendPost(form);
+            return false;
+        }
+        form.addEventListener('submit', addBook);
+    };
+    window.onload = init;
+    </script>
 </head>
 <body>
     <h1>Book's Directory</h1>
     <section id="content"></section>
+    <h1>Add a book</h1>
     <form id="bookForm" action="/addBook" method="post">
 
         <label for="author">Author: </label>
@@ -35,6 +101,13 @@
 
         <label for="genres">Genres: </label>
         <input id="genresField" type="text" name="genres"/>
+        
+        <select name="dataType" id="dataType">
+            <option value="application/x-www-form-urlencoded">URL Encoded</option>
+            <option value="application/json">JSON</option>
+        </select>
+
+        <input type="submit" value="Add Book" />
     </form>
 </body>
 </html>
