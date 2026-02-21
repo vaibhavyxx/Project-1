@@ -29,9 +29,11 @@
                     break;
             }
             content.innerHTML += phrase;
-            const obj = await response.json();
-            if(obj.message){
-                content.innerHTML += `<p>${obj.message}</p>`
+            if(response.status !== 204){
+                const obj = await response.json();
+                if(obj.message){
+                    content.innerHTML += `<p>${obj.message}</p>`
+                }
             }
         };
 
@@ -52,10 +54,10 @@
         
             let formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
             formData = JSON.stringify({author, country, language, link, page, title, year, genres});
-            //console.log(formData);
+            //console.log(formData);*/
 
             const response = await fetch(url, {
-                method: method,
+                method: 'POST',
                 headers:{
                     'Content-Type': dataType,
                     'Content-Length': bookForm.length,
@@ -65,6 +67,7 @@
             });
             //console.log(response);
             handleResponses(response);
+            console.log("after handle responses");
         }
 
     const init = () => {
@@ -118,5 +121,6 @@
 
         <input type="submit" value="Add Book" />
     </form>
+    <section id="test"></section>
 </body>
 </html>

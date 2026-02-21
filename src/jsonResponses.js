@@ -21,8 +21,9 @@ const getData = (request, response) =>{
 }
 
 const addData = (request, response) => {
-    const jsonMessage = {message: 'Everything is required',};
-    const {author, country, language, title, year, genres} = request.body;
+        const parsedBody = JSON.parse(body);
+        const jsonMessage = {message: 'Everything is required',};
+        const {author, country, language, title, year, genres} = parsedBody;
 
     if(!author || !country || !language || !title || !year || !genres){
         jsonMessage.id = 'Missing parameters';
@@ -41,11 +42,12 @@ const addData = (request, response) => {
             genres: genres,
         };
     }
+    console.log(books[title]);
     if(responseStatus === 201){
         jsonMessage.message = 'Created successfully';
         return respond(request, response, responseStatus, jsonMessage);
     }
     return respond(request, response, responseStatus, {});
-}
+};
 
-module.exports = {getData};
+module.exports = {getData, addData};

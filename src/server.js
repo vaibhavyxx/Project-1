@@ -10,6 +10,39 @@ const urlStruct = {
     '/getData': jsonHandler.getData,
 }
 
+const parseBody = (request, response, handler) => {
+    const body = [];
+    request.on ('error', (err) => {
+        console.dir(err);
+        response.statusCode = 400;
+        response.end();
+    });
+
+    request.on('data', (chunk) => {
+        body.push(chunk);
+    });
+
+    request.on('end', ()=> {
+        const bodyString = Buffer.concat(body).toString();
+        const type = request.headers['content-type'];
+        if(type === 'application/x-www-form-urlencoded'){
+            request.body = query.parse(bodyString);
+        }else if(type === 'application/json'){
+            request.body = JSON.parse(bodyString);
+        }else{
+            response.writeHead(400, {'Content-Type': 'application/json'});
+            response.write(JSON.stringify({error:'invalid data format'}));
+            return response.end();
+        }
+    })
+}
+
+const handlePost = (request, response, parsedURL) => {
+    if(parsedURL.pathname === '/addUser'){
+        parseBody(request, response, jsonHandler.addData);
+    }
+};
+
 const onRequest = (request, response) => {
     const protocol = request.connection.encrypted? 'https':'http';
     const parsedURL = new URL(request.url, `${protocol}://${request.headers.host}`);
@@ -17,6 +50,9 @@ const onRequest = (request, response) => {
     request.query = Object.fromEntries(parsedURL.searchParams);
     if(urlStruct[parsedURL.pathname]) urlStruct[parsedURL.pathname](request, response);
     //have an else for not found
+    if(request.method === 'POST'){
+        handlePost(request, response, parsedURL);
+    }
 }
 
 http.createServer(onRequest).listen(port);
