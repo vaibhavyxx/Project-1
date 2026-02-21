@@ -9,6 +9,32 @@
 </head>
 <body>
     <h1>Book's Directory</h1>
-    <div id="content"></div>
+    <section id="content"></section>
+    <form id="bookForm" action="/addBook" method="post">
+
+        <label for="author">Author: </label>
+        <input id="authorField" type="text" name="author" />
+        
+        <label for="country">Country: </label>
+        <input id="countryField" type="text" name="country"/>
+        
+        <label for="language">Language: </label>
+        <input id="languageField" type="text" name="language"/>
+
+        <label for="link">Link: </label>
+        <input id="linkField" type="text" name="link" />
+
+        <label for="page">Page: </label>
+        <input id="pageField" type="number" name="page" min="1" step="1">
+
+        <label for="title">Title: </label>
+        <input id="titleField" type="text" name="title"/>
+
+        <label for="year">Year: </label>
+        <input id="yearField" type="number" name="year" step="1">
+
+        <label for="genres">Genres: </label>
+        <input id="genresField" type="text" name="genres"/>
+    </form>
 </body>
 </html>

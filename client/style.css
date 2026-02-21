@@ -19,3 +19,12 @@ html, body {
   font-size: 2em;
   text-align: center;
 }
+
+form{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 5px;
+  width: 95%;
+  margin-left: 10px;
+}
