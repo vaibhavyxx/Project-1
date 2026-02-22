@@ -28,12 +28,21 @@ const addData = (request, response) => {
     parsedBody = JSON.parse(request.body);
     }
     const jsonMessage = {message: 'Everything is required',};
-    const {author, country, language, url, page, title, year, genres} = parsedBody;
+    //const {author, country, language, url, page, title, year, genres} = parsedBody;
+    const author = request.body["author"];
+    const country = request.body["country"];
+    const language = request.body["language"];
+    const url = request.body["link"];
+    const page = request.body["page"];
+    const title = request.body["title"];
+    const year = request.body["year"];
+    const genres = request.body["genres"];
+    console.log('response: '+ author+', '+ title+', '+ year);
 
-    if(!author || !country || !language ||!url ||!page || !title || !year || !genres){
+    if(author === undefined || title === undefined || year === undefined){
         console.log("passing a bad req");
         jsonMessage.id = 'Missing parameters';
-        //return respond(request, response, 400, jsonMessage);
+        return respond(request, response, 400, jsonMessage);
     }
 
     let responseStatus = 204; //updated
