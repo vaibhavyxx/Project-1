@@ -11,7 +11,7 @@ const urlStruct = {
 }
 
 const parseBody = (request, response, handler) => {
-    const body = [];
+    const parsedBody = [];
     request.on ('error', (err) => {
         console.dir(err);
         response.statusCode = 400;
@@ -19,11 +19,13 @@ const parseBody = (request, response, handler) => {
     });
 
     request.on('data', (chunk) => {
-        body.push(chunk);
+        //console.log(chunk);
+        parsedBody.push(chunk);
     });
 
     request.on('end', ()=> {
-        const bodyString = Buffer.concat(body).toString();
+        const bodyString = Buffer.concat(parsedBody).toString();
+        console.log(bodyString);
         const type = request.headers['content-type'];
         if(type === 'application/x-www-form-urlencoded'){
             request.body = query.parse(bodyString);
@@ -34,11 +36,12 @@ const parseBody = (request, response, handler) => {
             response.write(JSON.stringify({error:'invalid data format'}));
             return response.end();
         }
+        handler(request, response);
     })
 }
 
 const handlePost = (request, response, parsedURL) => {
-    if(parsedURL.pathname === '/addUser'){
+    if(parsedURL.pathname === '/addBook'){
         parseBody(request, response, jsonHandler.addData);
     }
 };

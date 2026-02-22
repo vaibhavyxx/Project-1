@@ -10,7 +10,7 @@
         const handleResponses = async (response) => {
             const content = document.querySelector('#content');
             console.log("status"+ response.status);
-            let phrase = "";
+            let phrase = "hi there";
             switch(response.status){
                 case 200:
                     phrase="Success";
@@ -52,10 +52,13 @@
             const year = bookForm.querySelector('#yearField').value;
             const genres = bookForm.querySelector('#genresField').value;
         
-            let formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
-            formData = JSON.stringify({author, country, language, link, page, title, year, genres});
-            //console.log(formData);*/
-
+            let formData = "";
+            if(dataType === 'application/x-www-form-urlencoded'){
+                formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
+            }else {
+                formData = JSON.stringify({author, country, language, link, page, title, year, genres});
+            }
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers:{
@@ -65,18 +68,20 @@
                 },
                 body: formData,
             });
-            //console.log(response);
+            //console.log(response.headers['content-type']);
             handleResponses(response);
-            console.log("after handle responses");
+            //console.log("after handle responses");
         }
 
     const init = () => {
+        //document.querySelector('#content').innerHTML = "Hi there";
         const form = document.querySelector('#bookForm');
 
         const addBook = (e) => {
             //console.log("it should add book");
             e.preventDefault();
             sendPost(form);
+            //console.log("after post");
             return false;
         }
         form.addEventListener('submit', addBook);
@@ -115,8 +120,8 @@
         <input id="genresField" type="text" name="genres"/>
         
         <select name="dataType" id="dataType">
-            <option value="application/x-www-form-urlencoded">URL Encoded</option>
             <option value="application/json">JSON</option>
+            <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
 
         <input type="submit" value="Add Book" />

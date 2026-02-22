@@ -21,13 +21,19 @@ const getData = (request, response) =>{
 }
 
 const addData = (request, response) => {
-        const parsedBody = JSON.parse(body);
-        const jsonMessage = {message: 'Everything is required',};
-        const {author, country, language, title, year, genres} = parsedBody;
 
-    if(!author || !country || !language || !title || !year || !genres){
+    let parsedBody = "";
+    //need a condition to take url-encoded
+    if(request.type === 'application/json'){    
+    parsedBody = JSON.parse(request.body);
+    }
+    const jsonMessage = {message: 'Everything is required',};
+    const {author, country, language, url, page, title, year, genres} = parsedBody;
+
+    if(!author || !country || !language ||!url ||!page || !title || !year || !genres){
+        console.log("passing a bad req");
         jsonMessage.id = 'Missing parameters';
-        return respond(request, response, 400, jsonMessage);
+        //return respond(request, response, 400, jsonMessage);
     }
 
     let responseStatus = 204; //updated
@@ -37,6 +43,8 @@ const addData = (request, response) => {
             author: author,
             country: country,
             language: language,
+            link: url,
+            page: page,
             title: title,
             year: year,
             genres: genres,
