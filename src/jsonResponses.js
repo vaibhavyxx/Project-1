@@ -58,7 +58,9 @@ const addData = (request, response) => {
             year: year,
             genres: genres,
         };
+        console.log(books[title]);  //load it into the array
     }
+    
     console.log(books[title]);
     if(responseStatus === 201){
         jsonMessage.message = 'Created successfully';
