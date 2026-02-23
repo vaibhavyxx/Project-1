@@ -24,7 +24,7 @@ const addDetails = (request, response) => {
     let pages = request.body["pages"];
     let country = request.body["country"];
 
-    if(title === undefined || pages === undefined || country === undefined){
+    if(title === '' || pages === '' || country === ''){
         message.id = "Bad parameters";
         return respond(request, response, 400, message);
     }
@@ -46,12 +46,14 @@ const addBook = (request, response) => {
         content = (request.body);
     }
     const msg = {message: 'Everything is required'};
-    let author =  content["author"];//request.body["author"];
-    let title = content["title"];//request.body["title"];
-    let year = content["year"];//request.body["year"];
-    let genres = content["genres"];
+    let author =  request.body["author"];
+    let title = request.body["title"];
+    let year = request.body["year"];
+    let genres = request.body["genres"];
+    console.log(request.body);
+    console.log(`${author}, ${title}, ${year}, ${genres}`);
 
-    if(author === undefined || title === undefined || year === undefined || genres === undefined){
+    if(author === '' || title === '' || year === '' || genres === ''){
         msg.id = 'Bad Parameters';
         return respond(request, response, 400, msg);
     }
