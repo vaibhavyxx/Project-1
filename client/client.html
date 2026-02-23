@@ -64,7 +64,7 @@
                 method:'POST',
                 headers:{
                     'Content-Type': dataType,
-                    'Content-Length': bookForm.length,
+                    'Content-Length': form.length,
                     'Accept': 'application/json',   //test if this can be accepted as url-encoded
                 },
                 body: phrase,
@@ -72,49 +72,10 @@
             handleResponses(response);
         }
 
-        const sendPost = async (bookForm) => {
-            const url = bookForm.getAttribute('action');
-            const method = bookForm.getAttribute('method');
-            const dataType = bookForm.querySelector('#dataType').value;
-
-            const author = bookForm.querySelector('#authorField').value;
-            const country = bookForm.querySelector('#countryField').value;
-            const language = bookForm.querySelector('#languageField').value;
-            const link = bookForm.querySelector('#linkField').value;
-            const page = bookForm.querySelector('#pageField').value;
-            const title = bookForm.querySelector('#titleField').value;
-            const year = bookForm.querySelector('#yearField').value;
-            const genres = bookForm.querySelector('#genresField').value;
-        
-            let formData = "";
-            if(dataType === 'application/x-www-form-urlencoded'){
-                formData = `author=${author}&country=${country}&language=${language}&link=${link}&page=${page}&title=${title}&year=${year}&genres=${genres}`;
-            }else {
-                formData = JSON.stringify({author, country, language, link, page, title, year, genres});
-            }
-            
-            const response = await fetch(url, {
-                method: 'POST',
-                headers:{
-                    'Content-Type': dataType,
-                    'Content-Length': bookForm.length,
-                    'Accept': 'application/json',
-                },
-                body: formData,
-            });
-            handleResponses(response);
-        }
-
     const init = () => {
-        const form = document.querySelector('#bookForm');
         const addBookForm = document.querySelector('#addBookForm');
         const addDetailsForm = document.querySelector('#adminForm');
 
-        const addAllDeets = (e) => {
-            e.preventDefault();
-            sendPost(form);
-            return false;
-        }
         const addDetails = (e) => {
             e.preventDefault();
             sendPostBookData(addDetailsForm, false);
@@ -127,7 +88,6 @@
         }
         addBookForm.addEventListener('submit', addBookData);
         addDetailsForm.addEventListener('submit', addDetails);
-        form.addEventListener('submit', addAllDeets);
     };
     window.onload = init;
     </script>
@@ -177,39 +137,6 @@
     </form>
 
     <section id="content"></section>
-    <form id="bookForm" action="/addAllData" method="post">
-
-        <label for="author">Author: </label>
-        <input id="authorField" type="text" name="author" />
-        
-        <label for="country">Country: </label>
-        <input id="countryField" type="text" name="country"/>
-        
-        <label for="language">Language: </label>
-        <input id="languageField" type="text" name="language"/>
-
-        <label for="link">Link: </label>
-        <input id="linkField" type="text" name="link" />
-
-        <label for="page">Page: </label>
-        <input id="pageField" type="number" name="page" min="1" step="1">
-
-        <label for="title">Title: </label>
-        <input id="titleField" type="text" name="title"/>
-
-        <label for="year">Year: </label>
-        <input id="yearField" type="number" name="year" step="1">
-
-        <label for="genres">Genres: </label>
-        <input id="genresField" type="text" name="genres"/>
-        
-        <select name="dataType" id="dataType">
-            <option value="application/json">JSON</option>
-            <option value="application/x-www-form-urlencoded">URL Encoded</option>
-        </select>
-
-        <input type="submit" value="Add Book" />
-    </form>
     
 </body>
 </html>

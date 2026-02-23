@@ -122,4 +122,4 @@ const addData = (request, response) => {
     return respond(request, response, responseStatus, {});
 };
 
-module.exports = {getData, addBook, addDetails, addData};
+module.exports = {getData, addBook, addDetails};

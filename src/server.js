@@ -46,9 +46,10 @@ const handlePost = (request, response, parsedURL) => {
         parseBody(request, response, jsonHandler.addBook);
     }else if(parsedURL.pathname === '/addDetails'){
         parseBody(request, response, jsonHandler.addDetails);
-    }else if(parsedURL.pathname === '/addAllData'){
-        parseBody(request, response, jsonHandler.addData);
     }
+    /*else if(parsedURL.pathname === '/addAllData'){
+        parseBody(request, response, jsonHandler.addData);
+    }*/
 };
 
 const onRequest = (request, response) => {
