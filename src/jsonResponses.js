@@ -69,4 +69,9 @@ const addBook = (request, response) => {
     return respond(request, response, responseCode, {}); //No message
 }
 
-module.exports = {getData, addBook, addDetails};
+const notFound = (request, respond) => {
+    const message = {message: 'Not Found'};
+    return respond(request, response, 404, message);
+}
+
+module.exports = {getData, addBook, addDetails, notFound};

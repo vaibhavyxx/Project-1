@@ -9,6 +9,7 @@ const urlStruct = {
     '/': htmlHandler.getHTML,
     '/style.css':htmlHandler.getStyle,
     '/getData': jsonHandler.getData,
+    'notFound':jsonHandler.notFound,
 }
 
 const parseBody = (request, response, handler) => {
