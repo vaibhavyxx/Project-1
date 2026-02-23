@@ -41,15 +41,15 @@ const addDetails = (request, response) => {
 }
 
 const addBook = (request, response) => {
-    //let content = "";
+    let content = "";
     if(request.type === 'application/json'){
-        //content = (request.body);
+        content = (request.body);
     }
     const msg = {message: 'Everything is required'};
-    let author = request.body["author"];
-    let title = request.body["title"];
-    let year = request.body["year"];
-    let genres = request.body["genres"];
+    let author =  content["author"];//request.body["author"];
+    let title = content["title"];//request.body["title"];
+    let year = content["year"];//request.body["year"];
+    let genres = content["genres"];
 
     if(author === undefined || title === undefined || year === undefined || genres === undefined){
         msg.id = 'Bad Parameters';
