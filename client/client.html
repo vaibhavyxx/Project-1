@@ -95,19 +95,28 @@
 <body>
     <h1>Book's Directory</h1>
 
-    <h3>Add a book</h3> 
+    <h3>Fetch Requests</h3>
+    <form id="getAllForm" action="/data">
+        <label for="get">Get</label>
+        <input type="radio" name="get">
+        <label for="head">Head</label>
+        <input type="radio" name="head">
+        <input type="submit" value="Get JSON">
+    </form>
+
+    <h3>POST: Add a book</h3> 
     <form id="addBookForm" action="/addBook" method="post">
         <label for="author">Author: </label>
-        <input id="authorField" type="text" name="author"/>
+        <input id="authorField" type="text" name="author">
 
         <label for="title">Title: </label>
-        <input id="titleField" type="text" name="title"/>
+        <input id="titleField" type="text" name="title">
 
         <label for="year">Year: </label>
-        <input id="yearField" type="number" name="year"/>
+        <input id="yearField" type="number" name="year">
 
         <label for="genres">Genres: </label>
-        <input id="genresField" type="text" name="genres"/>
+        <input id="genresField" type="text" name="genres">
 
         <select name="dataType" id="dataType">
             <option value="application/json">JSON</option>
@@ -117,23 +126,23 @@
         <input type="submit" value="Add Book" />
     </form>
 
-    <h3>Add Admin Details</h3>
+    <h3>POST: Add Admin Details</h3>
     <form id="adminForm" action="/addDetails" method="post">
         <label for="title">Title: </label>
         <input id="titleField" type="text" name="title" >
 
         <label for="page">Pages: </label>
-        <input id="pageField" type="number" min="1" name="page"/>
+        <input id="pageField" type="number" min="1" name="page">
 
         <label for="country">Country: </label>
-        <input id="countryField" type="text" name="country"/>
+        <input id="countryField" type="text" name="country">
 
         <select name="dataType" id="dataType">
             <option value="application/json">JSON</option>
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
 
-        <input type="submit" value="Add Book" />
+        <input type="submit" value="Add Book">
     </form>
 
     <section id="content"></section>

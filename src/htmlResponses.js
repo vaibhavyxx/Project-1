@@ -1,5 +1,4 @@
 const fs = require('fs');   //file system
-const { request } = require('http');
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);    //loading files synchronously
 const style = fs.readFileSync(`${__dirname}/../client/style.css`);
 const jsonString = fs.readFileSync(`${__dirname}/../data/books.json`);
