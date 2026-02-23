@@ -6,7 +6,6 @@
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script>
-        //test script
         const handleResponses = async (response) => {
             const content = document.querySelector('#content');
             console.log("status"+ response.status);
@@ -28,7 +27,7 @@
                     phrase="Not implemented";
                     break;
             }
-            content.innerHTML += phrase;
+            content.innerHTML = phrase;
             if(response.status !== 204){
                 const obj = await response.json();
                 if(obj.message){
@@ -37,6 +36,41 @@
             }
         };
 
+        const sendPostBookData = async (form, addData) => {
+            const url = form.getAttribute('action');
+            const method = form.getAttribute('method');
+            const dataType = form.querySelector('#dataType').value;
+
+            let data = {};
+            let phrase = "";
+            const title = form.querySelector("[name=title]").value;
+            if(addData){
+                const author = form.querySelector('[name=author]').value;
+                const year = form.querySelector('[name=year]').value;
+                const genres = form.querySelector('[name=genres]').value;
+                data = {author, title, year, genres};
+                phrase = `author=${author}&title=${title}&year=${year}&genres=${genres}`;
+            }else{
+                const pages = form.querySelector('[name=page]').value;
+                const country = form.querySelector('[name=country]').value;
+                data = {title, pages, country};
+                phrase = `title=${title}&pages=${pages}&country=${country}`;
+            }
+
+            if(dataType === 'application/json'){
+                phrase = JSON.stringify(data);
+            }
+            const response = await fetch(url, {
+                method:'POST',
+                headers:{
+                    'Content-Type': dataType,
+                    'Content-Length': bookForm.length,
+                    'Accept': 'application/json',   //test if this can be accepted as url-encoded
+                },
+                body: phrase,
+            });
+            handleResponses(response);
+        }
 
         const sendPost = async (bookForm) => {
             const url = bookForm.getAttribute('action');
@@ -68,32 +102,82 @@
                 },
                 body: formData,
             });
-            //console.log(response.headers['content-type']);
             handleResponses(response);
-            //console.log("after handle responses");
         }
 
     const init = () => {
-        //document.querySelector('#content').innerHTML = "Hi there";
         const form = document.querySelector('#bookForm');
+        const addBookForm = document.querySelector('#addBookForm');
+        const addDetailsForm = document.querySelector('#adminForm');
 
-        const addBook = (e) => {
-            //console.log("it should add book");
+        const addAllDeets = (e) => {
             e.preventDefault();
             sendPost(form);
-            //console.log("after post");
             return false;
         }
-        form.addEventListener('submit', addBook);
+        const addDetails = (e) => {
+            e.preventDefault();
+            sendPostBookData(addDetailsForm, false);
+            return false;
+        }
+        const addBookData = (e) => {
+            e.preventDefault();
+            sendPostBookData(addBookForm, true);
+            return false;
+        }
+        addBookForm.addEventListener('submit', addBookData);
+        addDetailsForm.addEventListener('submit', addDetails);
+        form.addEventListener('submit', addAllDeets);
     };
     window.onload = init;
     </script>
 </head>
 <body>
     <h1>Book's Directory</h1>
+
+    <h3>Add a book</h3> 
+    <form id="addBookForm" action="/addBook" method="post">
+        <label for="author">Author: </label>
+        <input id="authorField" type="text" name="author"/>
+
+        <label for="title">Title: </label>
+        <input id="titleField" type="text" name="title"/>
+
+        <label for="year">Year: </label>
+        <input id="yearField" type="number" name="year"/>
+
+        <label for="genres">Genres: </label>
+        <input id="genresField" type="text" name="genres"/>
+
+        <select name="dataType" id="dataType">
+            <option value="application/json">JSON</option>
+            <option value="application/x-www-form-urlencoded">URL Encoded</option>
+        </select>
+
+        <input type="submit" value="Add Book" />
+    </form>
+
+    <h3>Add Admin Details</h3>
+    <form id="adminForm" action="/addDetails" method="post">
+        <label for="title">Title: </label>
+        <input id="titleField" type="text" name="title" >
+
+        <label for="page">Pages: </label>
+        <input id="pageField" type="number" min="1" name="page"/>
+
+        <label for="country">Country: </label>
+        <input id="countryField" type="text" name="country"/>
+
+        <select name="dataType" id="dataType">
+            <option value="application/json">JSON</option>
+            <option value="application/x-www-form-urlencoded">URL Encoded</option>
+        </select>
+
+        <input type="submit" value="Add Book" />
+    </form>
+
     <section id="content"></section>
-    <h1>Add a book</h1>
-    <form id="bookForm" action="/addBook" method="post">
+    <form id="bookForm" action="/addAllData" method="post">
 
         <label for="author">Author: </label>
         <input id="authorField" type="text" name="author" />
@@ -126,6 +210,6 @@
 
         <input type="submit" value="Add Book" />
     </form>
-    <section id="test"></section>
+    
 </body>
 </html>

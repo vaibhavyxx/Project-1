@@ -25,11 +25,12 @@ const parseBody = (request, response, handler) => {
 
     request.on('end', ()=> {
         const bodyString = Buffer.concat(parsedBody).toString();
-        console.log(bodyString);
+        console.log('body: ' +bodyString);
         const type = request.headers['content-type'];
         if(type === 'application/x-www-form-urlencoded'){
             request.body = query.parse(bodyString);
         }else if(type === 'application/json'){
+            //onsole.log("body string: "+ bodyString);
             request.body = JSON.parse(bodyString);
         }else{
             response.writeHead(400, {'Content-Type': 'application/json'});
@@ -42,6 +43,10 @@ const parseBody = (request, response, handler) => {
 
 const handlePost = (request, response, parsedURL) => {
     if(parsedURL.pathname === '/addBook'){
+        parseBody(request, response, jsonHandler.addBook);
+    }else if(parsedURL.pathname === '/addDetails'){
+        parseBody(request, response, jsonHandler.addDetails);
+    }else if(parsedURL.pathname === '/addAllData'){
         parseBody(request, response, jsonHandler.addData);
     }
 };
