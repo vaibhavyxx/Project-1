@@ -11,22 +11,17 @@
                 if(response.status === 200){
                     debugger;
                     const content = document.querySelector('#getDataContent');
-                    
-                    const h1 = document.createElement('h1');
-                    const p = document.createElement('p');
                     const rawData = document.createElement('p');
+                    const h2 = document.createElement('h2');
 
                     const contentType = response.headers.get('Content-Type');
                     rawData.innerText = resText;
                     h2.innerText = contentType;
 
                     const parsedObj = JSON.parse(resText);
-                    h1.innerText = `Title: ${parsedObj.title}`;
-                    //testing will add p1 later
-
-                    content.appendChild(h1);
-                    content.appendChild(p);
-                    //content.appendChild(h2);
+                    console.log(parsedObj);
+                    rawData.innerText = `Title: ${parsedObj.title}, Author:${parsedObj.author}`;
+                    content.appendChild(h2);
                     content.appendChild(rawData);
                 }
             });
@@ -72,10 +67,10 @@
             };
             console.log(url +"called get function");
             fetch(url, options)
-                .then(response => {
+                /*.then(response => {
                     console.log(response.json());
                     return response.json();
-                })
+                })*/
                 .then(data => {
                     handleGetResponses(data);
                 })
