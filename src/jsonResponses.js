@@ -13,8 +13,8 @@ const respond = (request, response, status, object)=> {
 }
 
 const getData = (request, response) =>{
-    const responseJSON = {books};
-    respond(request, response, 200, responseJSON);
+    console.log('get data: '+ books);
+    return respond(request, response, 200, books);
 }
 
 const addDetails = (request, response) => {

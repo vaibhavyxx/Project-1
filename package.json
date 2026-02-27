@@ -16,7 +16,7 @@
   "main": "eslint.config.js",
   "scripts": {
     "pretest": "eslint ./src --fix",
-    "start": "node ./src/server.js",
+    "start": "node --inspect ./src/server.js",
     "test": "echo \"No test\""
   },
   "devDependencies": {

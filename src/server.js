@@ -8,8 +8,8 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const urlStruct = {
     '/': htmlHandler.getHTML,
     '/style.css':htmlHandler.getStyle,
-    '/getData': jsonHandler.getData,
     'notFound':jsonHandler.notFound,
+    '/getData':jsonHandler.getData,
 }
 
 const parseBody = (request, response, handler) => {
@@ -48,10 +48,12 @@ const handlePost = (request, response, parsedURL) => {
 };
 
 const onRequest = (request, response) => {
+
     const protocol = request.connection.encrypted? 'https':'http';
     const parsedURL = new URL(request.url, `${protocol}://${request.headers.host}`);
 
     request.query = Object.fromEntries(parsedURL.searchParams);
+    console.log("parsedURL: "+ parsedURL.pathname);
     if(urlStruct[parsedURL.pathname]) urlStruct[parsedURL.pathname](request, response);
 
     if(request.method === 'POST'){
