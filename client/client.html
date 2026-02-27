@@ -13,8 +13,17 @@
                     const content = document.querySelector('#getDataContent');
                     const rawData = document.createElement('p');
                     const h2 = document.createElement('h2');
+                    let data = JSON.parse(resText);
 
-                    rawData.innerText = resText;
+                    for(book in data){
+                        const bookData = data[book];
+                        rawData.innerText +=  `author: ${bookData["author"]}, title: ${bookData["title"]}, country: ${bookData["country"]}, 
+                        language: ${bookData["language"]}, link: ${bookData["link"]}, pages: ${bookData["pages"]}, genres: `;
+                        const genresArray = bookData["genres"];
+                        for(genre in genresArray){
+                            rawData.innerText += genresArray[genre];
+                        }
+                    }
                     content.appendChild(rawData);
                 }
             });
