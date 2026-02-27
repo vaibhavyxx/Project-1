@@ -12,6 +12,7 @@
                     //console.log(JSON.parse(resText));
                     const content = document.querySelector('#getDataContent');
                     const rawData = document.createElement('p');
+                    rawData.id = 'bookList';
                     const h2 = document.createElement('h2');
                     let data = JSON.parse(resText);
 
@@ -117,6 +118,7 @@
         const addBookForm = document.querySelector('#addBookForm');
         const addDetailsForm = document.querySelector('#adminForm');
         const getAllForm = document.querySelector('#getAllForm');
+        const clearButton = document.querySelector('#clear');
 
         const fetchData = (e) => {
             e.preventDefault();
@@ -133,9 +135,17 @@
             sendPost(addBookForm, true);
             return false;
         }
+        
         addBookForm.addEventListener('submit', addBookData);
         addDetailsForm.addEventListener('submit', addDetails);
         getAllForm.addEventListener('submit', fetchData);
+        clearButton.addEventListener('click', ()=> {
+            const getDataSection = document.querySelector('#getDataContent');
+            const bookList = document.querySelector('#bookList'); 
+            if(bookList){
+                bookList.remove();
+            }
+        });
     };
     window.onload = init;
     </script>
@@ -153,6 +163,7 @@
         <input type="submit" value="Get JSON">
         <section id="getDataContent"></section>
     </form>
+    <button id="clear">clear</button>
 
     <h3>POST: Add a book</h3> 
     <form id="addBookForm" action="/addBook" method="post">
