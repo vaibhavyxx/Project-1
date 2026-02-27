@@ -20,7 +20,7 @@ html, body {
   text-align: center;
 }
 
-form{
+#addBookForm #adminForm{
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;

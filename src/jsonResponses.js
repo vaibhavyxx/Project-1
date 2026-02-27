@@ -13,7 +13,6 @@ const respond = (request, response, status, object)=> {
 }
 
 const getData = (request, response) =>{
-    console.log('get data: '+ books[0]["author"]);
     return respond(request, response, 200, books);
 }
 
