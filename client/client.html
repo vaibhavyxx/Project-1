@@ -6,26 +6,38 @@
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script>
-        const handleGetResponses = (response) => {
+        const handleGetResponses = (response, type) => {
             response.text().then(resText => {
-                if(response.status === 200){
-                    //console.log(JSON.parse(resText));
-                    const content = document.querySelector('#getDataContent');
-                    const rawData = document.createElement('p');
-                    rawData.id = 'bookList';
-                    const h2 = document.createElement('h2');
-                    let data = JSON.parse(resText);
+                const content = document.querySelector('#getDataContent');
+                const h2 = document.createElement('h2');
+                h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
+                content.appendChild(h2);
+                
+                let rawData;
+                if(response.status === 200 && type === 'GET'){
+                    if(type === 'GET'){
+                        rawData = document.createElement('p');
+                        rawData.id = 'bookList';
 
-                    for(book in data){
-                        const bookData = data[book];
-                        rawData.innerText +=  `author: ${bookData["author"]}, title: ${bookData["title"]}, country: ${bookData["country"]}, 
-                        language: ${bookData["language"]}, link: ${bookData["link"]}, pages: ${bookData["pages"]}, genres: `;
-                        const genresArray = bookData["genres"];
-                        for(genre in genresArray){
-                            rawData.innerText += genresArray[genre];
+                        let data = JSON.parse(resText);
+                        for(book in data){
+                            const bookData = data[book];
+                            rawData.innerText +=  `author: ${bookData["author"]}, title: ${bookData["title"]}, country: ${bookData["country"]}, 
+                            language: ${bookData["language"]}, link: ${bookData["link"]}, pages: ${bookData["pages"]}, genres: `;
+                            const genresArray = bookData["genres"];
+                            for(genre in genresArray){
+                                rawData.innerText += genresArray[genre];
+                            }
+                    }
+                        content.appendChild(rawData);
+                    }else if(type === 'HEAD'){
+                        const rawData = content.querySelector('#bookList');
+                        const h2 = content.getElementsByTagName('h2');
+                        if(rawData){
+                            rawData.remove();
+                            h2.remove();
                         }
                     }
-                    content.appendChild(rawData);
                 }
             });
         }
@@ -68,10 +80,9 @@
                     'Accept':acceptedType,
                 },
             };
-            console.log(url +"called get function");
             fetch(url, options)
                 .then(data => {
-                    handleGetResponses(data);
+                    handleGetResponses(data, type);
                 })
                 .catch(err =>{
                     console.log('fetch error: '+ err);
@@ -122,7 +133,13 @@
 
         const fetchData = (e) => {
             e.preventDefault();
-            sendFetchRequest(getAllForm.getAttribute('action'), 'application/json','GET');
+            const method = getAllForm.querySelector('input[name="method"]:checked');
+
+            if(!method){
+                return; //No method selected
+            }
+
+            sendFetchRequest(getAllForm.getAttribute('action'), 'application/json',method.value);
             return false;
         }
         const addDetails = (e) => {
