@@ -12,6 +12,19 @@ const respond = (request, response, status, object)=> {
     response.end();    
 }
 
+const getSelectedTitles = (request, response) => {
+    if(!request.query || !request.query.title){
+        const json = {error: 'Title is required'};
+        return respond(request, response, 400, json);
+    }
+    const title = books[request.query.title];
+    if(!title){
+        const json = {error: 'Invalid book'};
+        return respond(request, response, 404, json);
+    }
+    return respond(request, response, 200, title);
+}
+
 const getData = (request, response) =>{
     return respond(request, response, 200, books);
 }
@@ -73,4 +86,4 @@ const notFound = (request, respond) => {
     return respond(request, response, 404, message);
 }
 
-module.exports = {getData, addBook, addDetails, notFound};
+module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles};

@@ -10,6 +10,7 @@ const urlStruct = {
     '/style.css':htmlHandler.getStyle,
     'notFound':jsonHandler.notFound,
     '/getData':jsonHandler.getData,
+    '/getTitles': jsonHandler.getSelectedTitles, 
 }
 
 const parseBody = (request, response, handler) => {

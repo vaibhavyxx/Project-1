@@ -130,6 +130,7 @@
         const addDetailsForm = document.querySelector('#adminForm');
         const getAllForm = document.querySelector('#getAllForm');
         const clearButton = document.querySelector('#clear');
+        const titleForm = document.querySelector('#filterTitleForm');
 
         const fetchData = (e) => {
             e.preventDefault();
@@ -156,6 +157,14 @@
         addBookForm.addEventListener('submit', addBookData);
         addDetailsForm.addEventListener('submit', addDetails);
         getAllForm.addEventListener('submit', fetchData);
+        titleForm.addEventListener('submit', ()=> {
+            e.preventDefault();
+            const title = titleForm.querySelector('[name=title]').value;
+            const url = titleForm.getAttribute('action');
+            url += `?title=${title}`;
+            sendFetchRequest(url, 'application/json','GET');
+        });
+
         clearButton.addEventListener('click', ()=> {
             const getDataSection = document.querySelector('#getDataContent');
             const bookList = document.querySelector('#bookList'); 
@@ -170,6 +179,13 @@
 <body>
     <h1>Book's Directory</h1>
 
+    <h3>Filter Titles</h3>
+    <form id="filterTitleForm" action="/getTitles">
+        <label for="title">Title</label>
+        <input type="text" name="title">
+        <input type="submit" value="Filter">
+    </form>
+    
     <h3>Fetch Requests</h3>
     <form id="getAllForm" action="/getData">
         <label for="get">Get</label>
