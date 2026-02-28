@@ -17,7 +17,16 @@ const getSelectedTitles = (request, response) => {
         const json = {error: 'Title is required'};
         return respond(request, response, 400, json);
     }
-    const title = books[request.query.title];
+    let index;
+    for(book in books){
+        const title = request.query.title === books[book]["title"];
+        if(title === true){
+            index = book;
+            break;
+        }
+    }
+    const title = books[index]["title"];
+    //books[request.query.title];   //this is broken
     if(!title){
         const json = {error: 'Invalid book'};
         return respond(request, response, 404, json);
