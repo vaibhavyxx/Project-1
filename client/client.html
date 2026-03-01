@@ -13,9 +13,9 @@
             });
         }
 
-        const renderContentTypes = (response, content) => {
-            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}, `;
-            statusResponse(response.status, content);
+        const renderContentTypes = (response, content, message) => {
+            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')} `;
+            statusResponse(response.status, message, content);
         }
 
         const showCount = (count) => {
@@ -50,50 +50,34 @@
             content.appendChild(bookContent);
         }
 
-        //test case but this code is a repeat 
-        const handleTitleResponse = (response) => {
-            response.text().then(resText => {
-                const content = document.querySelector('#content');
-                clearBookDetails();
-
-                if(response.status === 200){
-                    const data = JSON.parse(resText);
-
-                    if(Object.keys(data).length ===0){
-                        content.innerHTML = `<p>No book found</p>`;
-                        return;
-                    }
-                    let count =  1;//Object.keys(data).length;
-
-                    for(let i =0; i < count; i++){
-                        renderBookDetails(content, data); //tests
-                    }
-                    showCount(count);
-                    
-                }
-            });
-        }
-
         //testing arrays
-        const handleCountries = (response) => {
+        const handleResponses = (response) => {
             response.text().then(resText => {
                 const content = document.querySelector('#content');
+                const responseContent = document.querySelector('#response');
+                let data = null;
+                let message = null;
+                if(resText){
+                    try{
+                        data = JSON.parse(resText);
+                        message = data.message || null;
+                    }catch(e){}
+                }
                 clearBookDetails();
-
+                let count = 0;
                 if(response.status === 200){
-                    const data = JSON.parse(resText);
-
                     if(Object.keys(data).length ===0){
-                        content.innerHTML = `<p>No book found</p>`;
+                        responseContent.innerText += `, No book found`;
                         return;
                     }
-                    let count = Object.keys(data).length;
+                    count = Object.keys(data).length;
 
                     for(let i =0; i < count; i++){
                         renderBookDetails(content, data[i]); //tests
                     }
-                    showCount(count);
                 }
+                renderContentTypes(response, responseContent, message);
+                showCount(count);
             });
         }
 
@@ -101,11 +85,19 @@
             response.text().then(resText => {
                 const content = document.querySelector('#content');
                 const responseContent = document.querySelector('#response');
-                renderContentTypes(response, responseContent);
-    
+                
+                let data = null;
+                let message = null;
+                if(resText){
+                    try{
+                        data = JSON.parse(resText);
+                        message = data.message || null;
+                    }catch(e){}
+                }
+                renderContentTypes(response, responseContent, message);
+               
                 if(response.status === 200 && type === 'GET'){
                     if(type === 'GET'){
-                        let data = JSON.parse(resText);
                         for(book in data){
                             renderBookDetails(content, data[book]);
                         }
@@ -117,32 +109,25 @@
             });
         }
 
-        const statusResponse = (status, content) => {
+        const statusResponse = (status, message, content) => {
             let phrase = "";
+            debugger;
             switch(status){
-                case 200:
-                    phrase="Success";
+                case 200: phrase="Success";
                     break;
-                case 201:
-                    phrase="Created";
+                case 201: phrase="Created";
                     break;
-                case 204:
-                    phrase="Updated";
+                case 204: phrase="Updated";
                     break;
-                case 400:
-                    phrase="Bad Request";
+                case 400: phrase="Bad Request";
                     break;
-                default:
-                    phrase="Not implemented";
+                default: phrase="Not implemented";
                     break;
             }
-            content.innerText += phrase;
-            /*if(response.status !== 204){
-                const obj = await response.json();
-                if(obj.message){
-                    content.innerHTML += `<p>${obj.message}</p>`
-                }
-            }*/
+            content.innerText += `, ${phrase}`;
+           if(message){
+            content.innerText += ` ,${message}`;
+           }
         };
 
         const sendFetchRequest = (url, acceptedType, type)=>{
@@ -156,13 +141,8 @@
                 .then(data => {
                     if(url.includes('/getData')){
                         handleGetResponses(data, type);
-                    }else if(url.includes('/getAuthors')){
-                        handleCountries(data)
-                    }else if(url.includes('/getCountry')){
-                        handleCountries(data);
-                    }
-                    else{
-                        handleCountries(data)
+                    }else {
+                        handleResponses(data)
                     }
                 })
                 .catch(err =>{
@@ -287,7 +267,6 @@
         <label for="title">Title</label>
         <input type="text" name="title">
         <input type="submit" value="Search">
-        <!--<section id="titleContent"></section>-->
     </form>
     
     <h3>Fetch Requests</h3>
@@ -298,7 +277,6 @@
         <label for="head">Head</label>
         <input type="radio" name="method" value="HEAD">
         <input type="submit" value="Get JSON">
-        <!--<section id="getDataContent"></section>-->
     </form>
     <button id="clear">clear</button>
 

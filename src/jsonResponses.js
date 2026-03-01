@@ -79,8 +79,8 @@ const addBook = (request, response) => {
     let title = request.body["title"];
     let year = request.body["year"];
     let genres = request.body["genres"];
-    console.log(request.body);
-    console.log(`${author}, ${title}, ${year}, ${genres}`);
+    //console.log(request.body);
+    //console.log(`${author}, ${title}, ${year}, ${genres}`);
 
     if(author === '' || title === '' || year === '' || genres === ''){
         msg.id = 'Bad Parameters';
