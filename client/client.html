@@ -14,7 +14,8 @@
         }
 
         const renderContentTypes = (response, content) => {
-            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}`;
+            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}, `;
+            statusResponse(response.status, content);
         }
 
         const renderBookDetails = (content, book) =>{
@@ -57,9 +58,32 @@
                         content.innerHTML = `<p>No book found</p>`;
                         return;
                     }
-                    const count =  1;//Object.keys(data).length;
+                    let count =  1;//Object.keys(data).length;
+
                     for(let i =0; i < count; i++){
                         renderBookDetails(content, data); //tests
+                    }
+                }
+            });
+        }
+
+        //testing arrays
+        const handleCountries = (response) => {
+            response.text().then(resText => {
+                const content = document.querySelector('#content');
+                clearBookDetails();
+
+                if(response.status === 200){
+                    const data = JSON.parse(resText);
+
+                    if(Object.keys(data).length ===0){
+                        content.innerHTML = `<p>No book found</p>`;
+                        return;
+                    }
+                    let count = Object.keys(data).length;
+
+                    for(let i =0; i < count; i++){
+                        renderBookDetails(content, data[i]); //tests
                     }
                 }
             });
@@ -84,12 +108,10 @@
             });
         }
 
-        const handleResponses = async (response) => {
-            const content = document.querySelector('#content');
-            //console.log("status"+ response.status);
+        const statusResponse = (status, content) => {
             let phrase = "";
             debugger;
-            switch(response.status){
+            switch(status){
                 case 200:
                     phrase="Success";
                     break;
@@ -106,13 +128,13 @@
                     phrase="Not implemented";
                     break;
             }
-            content.innerHTML = phrase;
-            if(response.status !== 204){
+            content.innerText += phrase;
+            /*if(response.status !== 204){
                 const obj = await response.json();
                 if(obj.message){
                     content.innerHTML += `<p>${obj.message}</p>`
                 }
-            }
+            }*/
         };
 
         const sendFetchRequest = (url, acceptedType, type)=>{
@@ -126,10 +148,17 @@
                 .then(data => {
                     if(url.includes('/getData')){
                         handleGetResponses(data, type);
-                    }else{
+                    }else if(url.includes('/getAuthors')){
+                        //console.log('this is the case for authors');
+                        handleTitleResponse(data)
+                    }else if(url.includes('/getCountry')){
+                        //console.log('this is the end case for countries');
+                        //handleTitleResponse(data);
+                        handleCountries(data);
+                    }
+                    else{
                         handleTitleResponse(data)
                     }
-                    //handleGetResponses(data, type);
                 })
                 .catch(err =>{
                     console.log('fetch error: '+ err);
@@ -172,12 +201,21 @@
             handleResponses(response);
         }
 
+    const getSpecificURL = (form, name, acceptedType, method, urlAttribute) => {
+        let htmlTag = form.querySelector(`[name=${name}]`).value;
+        let url = form.getAttribute('action');
+        url += `?${urlAttribute}=${htmlTag}`;
+        sendFetchRequest(url, acceptedType, method);
+    };
+
     const init = () => {
         const addBookForm = document.querySelector('#addBookForm');
         const addDetailsForm = document.querySelector('#adminForm');
         const getAllForm = document.querySelector('#getAllForm');
         const clearButton = document.querySelector('#clear');
         const titleForm = document.querySelector('#filterTitleForm');
+        const authorForm = document.querySelector('#filterAuthors');
+        const countryForm = document.querySelector('#filterCountry');
 
         const fetchData = (e) => {
             e.preventDefault();
@@ -202,12 +240,19 @@
         addBookForm.addEventListener('submit', addBookData);
         addDetailsForm.addEventListener('submit', addDetails);
         getAllForm.addEventListener('submit', fetchData);
+
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
-            const title = titleForm.querySelector('[name=title]').value;
-            let url = titleForm.getAttribute('action');
-            url += `?title=${title}`;
-            sendFetchRequest(url, 'application/json','GET');
+            getSpecificURL(titleForm, 'title', 'application/json', 'GET', 'title')
+            //const title = titleForm.querySelector('[name=title]').value;
+        });
+        authorForm.addEventListener('submit', (e)=> {
+            e.preventDefault();
+            getSpecificURL(authorForm, 'author', 'application/json', 'GET', 'author');
+        });
+        countryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            getSpecificURL(countryForm, 'country', 'application/json', 'GET', 'country');
         });
 
         clearButton.addEventListener('click', ()=> {

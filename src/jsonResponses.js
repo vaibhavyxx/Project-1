@@ -32,7 +32,7 @@ const getSelectedCountries = (request, response) => {
         const json = {error: 'Invalid book'};
         return respond(request, response, 404, json);
     }
-    return respond(request, response, 200, title);
+    return respond(request, response, 200, countries);
 }
 
 //bad practice but can't think of anything else
@@ -55,7 +55,7 @@ const getSelectedAuthors = (request, response) => {
         const json = {error: 'Invalid book'};
         return respond(request, response, 404, json);
     }
-    return respond(request, response, 200, title);
+    return respond(request, response, 200, author);
 }
 
 const getSelectedTitles = (request, response) => {
@@ -141,4 +141,4 @@ const notFound = (request, respond) => {
     return respond(request, response, 404, message);
 }
 
-module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles};
+module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles, getSelectedAuthors, getSelectedCountries};

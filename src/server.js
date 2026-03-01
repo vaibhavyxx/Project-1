@@ -11,6 +11,8 @@ const urlStruct = {
     'notFound':jsonHandler.notFound,
     '/getData':jsonHandler.getData,
     '/getTitles': jsonHandler.getSelectedTitles, 
+    '/getAuthors': jsonHandler.getSelectedAuthors,
+    '/getCountry':jsonHandler.getSelectedCountries,
 }
 
 const parseBody = (request, response, handler) => {
