@@ -44,26 +44,38 @@
             content.appendChild(bookContent);
         }
 
+        //test case but this code is a repeat 
+        const handleTitleResponse = (response) => {
+            response.text().then(resText => {
+                const content = document.querySelector('#content');
+                clearBookDetails();
+
+                if(response.status === 200){
+                    const data = JSON.parse(resText);
+
+                    if(Object.keys(data).length ===0){
+                        content.innerHTML = `<p>No book found</p>`;
+                        return;
+                    }
+                    for(index in data){
+                        renderBookDetails(content,index, data[index]);
+                    }
+                }
+            });
+        }
+
         const handleGetResponses = (response, type) => {
             response.text().then(resText => {
                 const content = document.querySelector('#content');
                 const responseContent = document.querySelector('#response');
-                //const h2 = document.createElement('h2');
-                //h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
-                //content.appendChild(h2);
                 renderContentTypes(response, responseContent);
-                
-                let rawData;
+    
                 if(response.status === 200 && type === 'GET'){
                     if(type === 'GET'){
-                        //rawData = document.createElement('p');
-                        //rawData.id = 'bookList';
-
                         let data = JSON.parse(resText);
                         for(book in data){
                             renderBookDetails(content, book, data[book]);
                     }
-                        //content.appendChild(rawData);
                     }else if(type === 'HEAD'){
                         clearBookDetails();
                     }
@@ -73,7 +85,7 @@
 
         const handleResponses = async (response) => {
             const content = document.querySelector('#content');
-            console.log("status"+ response.status);
+            //console.log("status"+ response.status);
             let phrase = "";
             debugger;
             switch(response.status){
@@ -111,9 +123,9 @@
             };
             fetch(url, options)
                 .then(data => {
-                    //if(url.includes('/getTitles')){
-                       // handleTitleResponse(response);
-                    //}else{
+                    /*if(url.includes('/getTitles')){
+                        handleTitleResponse(data);
+                    }else{*/
                         //this is where you route it to get titles and all the responses
                         handleGetResponses(data, type);
                     //}  
@@ -169,11 +181,9 @@
         const fetchData = (e) => {
             e.preventDefault();
             const method = getAllForm.querySelector('input[name="method"]:checked');
-
             if(!method){
                 return; //No method selected
             }
-
             sendFetchRequest(getAllForm.getAttribute('action'), 'application/json',method.value);
             return false;
         }
