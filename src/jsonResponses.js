@@ -12,72 +12,34 @@ const respond = (request, response, status, object)=> {
     response.end();    
 }
 
-const getSelectedCountries = (request, response) => {
-    if(!request.query || !request.query.country){
-        const json = {error: 'Title is required'};
+//helper function for getting filtered data
+const getFilteredData = (request, response, requestQuery, queryName) => {
+    if(!request.query || !requestQuery){
+        const json = {error: `${queryName} is required`};
         return respond(request, response, 400, json);
     }
-    let index = [];
+    let indices = [];
     for(book in books){
-        const country = request.query.country === books[book]["country"];
-        if(country === true){
-            index.push(books[book]);
-            //break;
-        }
+        const filteredItem = requestQuery === books[book][`${queryName}`];
+        if(filteredItem) indices.push(books[book]);
     }
-    //figure out how the array of countries save these values
-    const countries = index;    //saves the array of countries
-    //books[request.query.title];   //this is broken
-    if(!countries){
+    if(!indices){
         const json = {error: 'Invalid book'};
         return respond(request, response, 404, json);
     }
-    return respond(request, response, 200, countries);
+    return respond(request, response, 200, indices);
 }
 
-//bad practice but can't think of anything else
+const getSelectedCountries = (request, response) => {
+    getFilteredData(request, response, request.query.country, "country");
+}
+
 const getSelectedAuthors = (request, response) => {
-    if(!request.query || !request.query.author){
-        const json = {error: 'Title is required'};
-        return respond(request, response, 400, json);
-    }
-    let index;
-    for(book in books){
-        const author = request.query.author === books[book]["author"];
-        if(author === true){
-            index = book;
-            break;
-        }
-    }
-    const author = books[index];
-    //books[request.query.title];   //this is broken
-    if(!author){
-        const json = {error: 'Invalid book'};
-        return respond(request, response, 404, json);
-    }
-    return respond(request, response, 200, author);
+    getFilteredData(request, response, request.query.author, "author");
 }
 
 const getSelectedTitles = (request, response) => {
-    if(!request.query || !request.query.title){
-        const json = {error: 'Title is required'};
-        return respond(request, response, 400, json);
-    }
-    let index;
-    for(book in books){
-        const title = request.query.title === books[book]["title"];
-        if(title === true){
-            index = book;
-            break;
-        }
-    }
-    const title = books[index];
-    //books[request.query.title];   //this is broken
-    if(!title){
-        const json = {error: 'Invalid book'};
-        return respond(request, response, 404, json);
-    }
-    return respond(request, response, 200, title);
+    getFilteredData(request, response, request.query.title, "title");
 }
 
 const getData = (request, response) =>{

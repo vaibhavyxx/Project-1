@@ -18,6 +18,11 @@
             statusResponse(response.status, content);
         }
 
+        const showCount = (count) => {
+            const footer = document.querySelector('footer');
+            footer.innerText = `${count} results`;
+        }
+
         const renderBookDetails = (content, book) =>{
             const bookContent = document.createElement('div');
             const bookDetails = document.createElement('div');
@@ -63,6 +68,8 @@
                     for(let i =0; i < count; i++){
                         renderBookDetails(content, data); //tests
                     }
+                    showCount(count);
+                    
                 }
             });
         }
@@ -85,6 +92,7 @@
                     for(let i =0; i < count; i++){
                         renderBookDetails(content, data[i]); //tests
                     }
+                    showCount(count);
                 }
             });
         }
@@ -100,7 +108,8 @@
                         let data = JSON.parse(resText);
                         for(book in data){
                             renderBookDetails(content, data[book]);
-                    }
+                        }
+                        showCount(data.length);
                     }else if(type === 'HEAD'){
                         clearBookDetails();
                     }
@@ -110,7 +119,6 @@
 
         const statusResponse = (status, content) => {
             let phrase = "";
-            debugger;
             switch(status){
                 case 200:
                     phrase="Success";
@@ -149,15 +157,12 @@
                     if(url.includes('/getData')){
                         handleGetResponses(data, type);
                     }else if(url.includes('/getAuthors')){
-                        //console.log('this is the case for authors');
-                        handleTitleResponse(data)
+                        handleCountries(data)
                     }else if(url.includes('/getCountry')){
-                        //console.log('this is the end case for countries');
-                        //handleTitleResponse(data);
                         handleCountries(data);
                     }
                     else{
-                        handleTitleResponse(data)
+                        handleCountries(data)
                     }
                 })
                 .catch(err =>{
@@ -198,7 +203,7 @@
                 },
                 body: phrase,
             });
-            handleResponses(response);
+            handleGetResponses(response, 'POST');
         }
 
     const getSpecificURL = (form, name, acceptedType, method, urlAttribute) => {
