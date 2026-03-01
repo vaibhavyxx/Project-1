@@ -157,18 +157,22 @@
 
             let data = {};
             let phrase = "";
+            let genres = [];
             const title = form.querySelector("[name=title]").value;
             if(addData){
                 const author = form.querySelector('[name=author]').value;
                 const year = form.querySelector('[name=year]').value;
-                const genres = form.querySelector('[name=genres]').value;
-                data = {author, title, year, genres};
-                phrase = `author=${author}&title=${title}&year=${year}&genres=${genres}`;
+                const genre = form.querySelector('[name=genres]').value;
+                const link = form.querySelector('[name=link]').value;
+                genres.push(genre);
+                data = {author, title, year, genres, link};
+                phrase = `author=${author}&title=${title}&year=${year}&genres=${genres}&link=${link}`;
             }else{
                 const pages = form.querySelector('[name=page]').value;
                 const country = form.querySelector('[name=country]').value;
-                data = {title, pages, country};
-                phrase = `title=${title}&pages=${pages}&country=${country}`;
+                const language = form.querySelector('[name=language]').value;
+                data = {title, pages, country, language};
+                phrase = `title=${title}&pages=${pages}&country=${country}&language=${language}`;
             }
 
             if(dataType === 'application/json'){
@@ -285,6 +289,9 @@
         <label for="author">Author: </label>
         <input id="authorField" type="text" name="author">
 
+        <label for="link">Link: </label>
+        <input id="linkField" type="text" name="link"> <!--new-->
+
         <label for="title">Title: </label>
         <input id="titleField" type="text" name="title">
 
@@ -312,6 +319,9 @@
 
         <label for="country">Country: </label>
         <input id="countryField" type="text" name="country">
+
+        <label for="language">Language</label>
+        <input id="languageField" type="text" name="language"> <!--new-->
 
         <select name="dataType" id="dataType">
             <option value="application/json">JSON</option>

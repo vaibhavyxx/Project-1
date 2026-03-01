@@ -47,21 +47,32 @@ const getData = (request, response) =>{
 }
 
 const addDetails = (request, response) => {
-    //skipping to the data from request.body
     const message = {message: 'Everything is required'};
-    let title = request.body["title"];
-    let pages = request.body["pages"];
-    let country = request.body["country"];
+    const title = request.body["title"];
+    const pages = request.body["pages"] || request.body["page"]; // handle name mismatch
+    const country = request.body["country"];
+    const language = request.body["language"];
 
-    if(title === '' || pages === '' || country === ''){
+    if(!title || !pages || !country){
         message.id = "Bad parameters";
         return respond(request, response, 400, message);
     }
-    let responseCode = 204;
+
+    let responseCode = 204; // updated
+
     if(!books[title]){
-        responseCode = 201;
-        books[title] = {title: title, pages: pages, country: country};
+        responseCode = 201; // created
+        books[title] = {}; // initialize empty so spread works below
     }
+
+    books[title] = {
+        ...books[title],  
+        title,
+        pages,
+        country,
+        language,
+    };
+
     if(responseCode === 201){
         message.message = "Created successfully";
         return respond(request, response, responseCode, message);
@@ -70,32 +81,39 @@ const addDetails = (request, response) => {
 }
 
 const addBook = (request, response) => {
-    let content = "";
-    if(request.type === 'application/json'){
-        content = (request.body);
-    }
     const msg = {message: 'Everything is required'};
-    let author =  request.body["author"];
-    let title = request.body["title"];
-    let year = request.body["year"];
-    let genres = request.body["genres"];
-    //console.log(request.body);
-    //console.log(`${author}, ${title}, ${year}, ${genres}`);
+    const author = request.body["author"];
+    const title = request.body["title"];
+    const year = request.body["year"];
+    const genres = request.body["genres"];
+    const link = request.body["link"];
 
-    if(author === '' || title === '' || year === '' || genres === ''){
+    if(!author || !title || !year || !genres || !link){
         msg.id = 'Bad Parameters';
         return respond(request, response, 400, msg);
     }
-    let responseCode = 204; //Updated
+
+    let responseCode = 204; // updated
+
     if(!books[title]){
-        responseCode = 201; //Created
-        books[title] = {author: author, title: title, year: year, genres: genres};
+        responseCode = 201; // created
+        books[title] = {}; // initialize empty so spread works below
     }
+
+    books[title] = {
+        ...books[title],  
+        author,
+        title,
+        year,
+        genres,
+        link,
+    };
+
     if(responseCode === 201){
-        msg.message = "Created Succesfully";
+        msg.message = "Created successfully";
         return respond(request, response, responseCode, msg);
     }
-    return respond(request, response, responseCode, {}); //No message
+    return respond(request, response, responseCode, {});
 }
 
 const notFound = (request, respond) => {
