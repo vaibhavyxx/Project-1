@@ -172,7 +172,7 @@
                 const country = form.querySelector('[name=country]').value;
                 const language = form.querySelector('[name=language]').value;
                 data = {title, pages, country, language};
-                phrase = `title=${title}&pages=${pages}&country=${country}&language=${language}`;
+                phrase = `title=${title}&page=${pages}&country=${country}&language=${language}`;
             }
 
             if(dataType === 'application/json'){
@@ -212,7 +212,7 @@
             if(!method){
                 return; //No method selected
             }
-            sendFetchRequest(getAllForm.getAttribute('action'), 'application/json',method.value);
+            sendFetchRequest(getAllForm.getAttribute('action'), method,method.value);
             return false;
         }
         const addDetails = (e) => {
@@ -233,7 +233,6 @@
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
             getSpecificURL(titleForm, 'title', 'application/json', 'GET', 'title')
-            //const title = titleForm.querySelector('[name=title]').value;
         });
         authorForm.addEventListener('submit', (e)=> {
             e.preventDefault();

@@ -1,9 +1,22 @@
 const { books } = require("./htmlResponses");
 
 const respond = (request, response, status, object)=> {
-    const content = JSON.stringify(object);
+    const acceptedType = request.headers['accept'];
+    let content;
+    let contentType;
+    
+    if(acceptedType === 'application/x-www-form-urlencoded'){
+        content = Object.entries(object)
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+            .join('&');
+        contentType = 'application/x-www-form-urlencoded';
+    } else {
+        content = JSON.stringify(object);
+        contentType = 'application/json';
+    }
+
     response.writeHead(status, {                    
-        'Content-Type': 'application/json',
+        'Content-Type': contentType,
         'Content-Length': Buffer.byteLength(content, 'utf8'),
     });
     if(request.method !== 'HEAD' && status !== 204){ 
@@ -116,7 +129,7 @@ const addBook = (request, response) => {
     return respond(request, response, responseCode, {});
 }
 
-const notFound = (request, respond) => {
+const notFound = (request, response) => {
     const message = {message: 'Not Found'};
     return respond(request, response, 404, message);
 }
