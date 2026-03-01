@@ -6,11 +6,23 @@
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script>
+        const clearBookDetails = () => {
+            const bookList = document.querySelectorAll('.bookContent'); 
+            bookList.forEach(bookItem => {
+                if(bookItem) bookItem.remove();
+            });
+        }
+
+        const renderContentTypes = (response, content) => {
+            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}`;
+        }
+
         const renderBookDetails = (content, index, book) =>{
             const bookContent = document.createElement('div');
             const bookDetails = document.createElement('div');
             bookContent.className = 'bookContent';
             bookDetails.className = 'bookDetailsTag';
+            
             const titleLink = document.createElement('a');
             titleLink.href = book["link"];
             const linkText = document.createTextNode(book["title"]);
@@ -35,35 +47,25 @@
         const handleGetResponses = (response, type) => {
             response.text().then(resText => {
                 const content = document.querySelector('#content');
-                const h2 = document.createElement('h2');
-                h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
+                const responseContent = document.querySelector('#response');
+                //const h2 = document.createElement('h2');
+                //h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
                 //content.appendChild(h2);
+                renderContentTypes(response, responseContent);
                 
                 let rawData;
                 if(response.status === 200 && type === 'GET'){
                     if(type === 'GET'){
-                        rawData = document.createElement('p');
-                        rawData.id = 'bookList';
+                        //rawData = document.createElement('p');
+                        //rawData.id = 'bookList';
 
                         let data = JSON.parse(resText);
                         for(book in data){
                             renderBookDetails(content, book, data[book]);
-                            /*const bookData = data[book];
-                            rawData.innerText +=  `author: ${bookData["author"]}, title: ${bookData["title"]}, country: ${bookData["country"]}, 
-                            language: ${bookData["language"]}, link: ${bookData["link"]}, pages: ${bookData["pages"]}, genres: `;
-                            const genresArray = bookData["genres"];
-                            for(genre in genresArray){
-                                rawData.innerText += genresArray[genre];
-                            }*/
                     }
-                        content.appendChild(rawData);
+                        //content.appendChild(rawData);
                     }else if(type === 'HEAD'){
-                        const rawData = content.querySelector('#bookList');
-                        const h2 = content.getElementsByTagName('h2');
-                        if(rawData){
-                            rawData.remove();
-                            h2.remove();
-                        }
+                        clearBookDetails();
                     }
                 }
             });
@@ -198,11 +200,7 @@
         });
 
         clearButton.addEventListener('click', ()=> {
-            const getDataSection = document.querySelector('#getDataContent');
-            const bookList = document.querySelector('#bookList'); 
-            if(bookList){
-                bookList.remove();
-            }
+            clearBookDetails();
         });
     };
     window.onload = init;
@@ -272,7 +270,8 @@
         <input type="submit" value="Add Book">
     </form>
 
+    <section id="response"></section>
     <section id="content"></section>
-    
+    <footer></footer>
 </body>
 </html>
