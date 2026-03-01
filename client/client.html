@@ -9,19 +9,20 @@
         const renderBookDetails = (content, index, book) =>{
             const bookContent = document.createElement('div');
             const bookDetails = document.createElement('div');
-            bookContent.class = 'bookContent';
-
+            bookContent.className = 'bookContent';
+            bookDetails.className = 'bookDetailsTag';
             const titleLink = document.createElement('a');
             titleLink.href = book["link"];
             const linkText = document.createTextNode(book["title"]);
             bookDetails.innerHTML = `<ul><li>Author: ${book["author"]}</li>
                 <li>Country: ${book["country"]}</li>
                 <li>Pages: ${book["pages"]}</li>
-                <li>Language: ${book["language"]}</li>`;
+                <li>Language: ${book["language"]}</li>
+                Genres:`;
 
             const genres = book["genres"];
             for(genre in genres){
-                bookDetails.innerHTML += `<li>${genres[genre]}</li>`;
+                bookDetails.innerHTML += `${genres[genre]}, `;
             }
             bookDetails.innerHTML += '</ul>';
 
@@ -36,7 +37,7 @@
                 const content = document.querySelector('#content');
                 const h2 = document.createElement('h2');
                 h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
-                content.appendChild(h2);
+                //content.appendChild(h2);
                 
                 let rawData;
                 if(response.status === 200 && type === 'GET'){

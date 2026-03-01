@@ -15,9 +15,10 @@ html, body {
 }
 
 #content {
-  margin-top: 100px;
-  font-size: 2em;
-  text-align: center;
+ text-align: left;
+ display: flex;
+ flex-direction: row;
+ flex-wrap: wrap;
 }
 
 #addBookForm #adminForm{
@@ -27,4 +28,20 @@ html, body {
   gap: 5px;
   width: 95%;
   margin-left: 10px;
+}
+
+.bookDetailsTag ul {
+    list-style: none;
+    padding: 0;  /* removes default left indent */
+    margin: 0;
+}
+
+.bookContent{
+  box-sizing: border-box;
+  width: max-content;
+  padding: 10px;
+  border-radius: 25px;
+  background-color: rgb(186, 223, 255);
+  height: max-content;
+  margin: 5px;
 }
