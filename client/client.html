@@ -220,11 +220,23 @@
 <body>
     <h1>Book's Directory</h1>
 
-    <h3>Filter Titles</h3>
+    <h3>Filter</h3>
+    <form id="filterCountry" action="/getCountry">
+        <label for="country">Country: </label>
+        <input type="text" name="country">
+        <input type="submit" value="Search">
+    </form>
+
+    <form id="filterAuthors" action="/getAuthors">
+        <label for="author">Author: </label>
+        <input type="text" name="author">
+        <input type="submit" value="Search">
+    </form>
+
     <form id="filterTitleForm" action="/getTitles">
         <label for="title">Title</label>
         <input type="text" name="title">
-        <input type="submit" value="Filter">
+        <input type="submit" value="Search">
         <!--<section id="titleContent"></section>-->
     </form>
     
