@@ -54,12 +54,12 @@ const onRequest = (request, response) => {
     const parsedURL = new URL(request.url, `${protocol}://${request.headers.host}`);
 
     request.query = Object.fromEntries(parsedURL.searchParams);
-    console.log("parsedURL: "+ parsedURL.pathname);
+    //console.log("parsedURL: "+ parsedURL.pathname);
     if(urlStruct[parsedURL.pathname]) urlStruct[parsedURL.pathname](request, response);
 
     if(request.method === 'POST'){
         handlePost(request, response, parsedURL);
-    }
+    } 
 }
 
 http.createServer(onRequest).listen(port);

@@ -25,7 +25,7 @@ const getSelectedTitles = (request, response) => {
             break;
         }
     }
-    const title = books[index]["title"];
+    const title = books[index];
     //books[request.query.title];   //this is broken
     if(!title){
         const json = {error: 'Invalid book'};

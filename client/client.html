@@ -6,9 +6,34 @@
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
     <script>
+        const renderBookDetails = (content, index, book) =>{
+            const bookContent = document.createElement('div');
+            const bookDetails = document.createElement('div');
+            bookContent.class = 'bookContent';
+
+            const titleLink = document.createElement('a');
+            titleLink.href = book["link"];
+            const linkText = document.createTextNode(book["title"]);
+            bookDetails.innerHTML = `<ul><li>Author: ${book["author"]}</li>
+                <li>Country: ${book["country"]}</li>
+                <li>Pages: ${book["pages"]}</li>
+                <li>Language: ${book["language"]}</li>`;
+
+            const genres = book["genres"];
+            for(genre in genres){
+                bookDetails.innerHTML += `<li>${genres[genre]}</li>`;
+            }
+            bookDetails.innerHTML += '</ul>';
+
+            titleLink.appendChild(linkText);
+            bookContent.appendChild(titleLink);
+            bookContent.appendChild(bookDetails);
+            content.appendChild(bookContent);
+        }
+
         const handleGetResponses = (response, type) => {
             response.text().then(resText => {
-                const content = document.querySelector('#getDataContent');
+                const content = document.querySelector('#content');
                 const h2 = document.createElement('h2');
                 h2.innerText = `Status: ${response.status}, Content Type: ${response.headers.get('content-type')}`;
                 content.appendChild(h2);
@@ -21,13 +46,14 @@
 
                         let data = JSON.parse(resText);
                         for(book in data){
-                            const bookData = data[book];
+                            renderBookDetails(content, book, data[book]);
+                            /*const bookData = data[book];
                             rawData.innerText +=  `author: ${bookData["author"]}, title: ${bookData["title"]}, country: ${bookData["country"]}, 
                             language: ${bookData["language"]}, link: ${bookData["link"]}, pages: ${bookData["pages"]}, genres: `;
                             const genresArray = bookData["genres"];
                             for(genre in genresArray){
                                 rawData.innerText += genresArray[genre];
-                            }
+                            }*/
                     }
                         content.appendChild(rawData);
                     }else if(type === 'HEAD'){
@@ -82,7 +108,12 @@
             };
             fetch(url, options)
                 .then(data => {
-                    handleGetResponses(data, type);
+                    //if(url.includes('/getTitles')){
+                       // handleTitleResponse(response);
+                    //}else{
+                        //this is where you route it to get titles and all the responses
+                        handleGetResponses(data, type);
+                    //}  
                 })
                 .catch(err =>{
                     console.log('fetch error: '+ err);
@@ -157,7 +188,7 @@
         addBookForm.addEventListener('submit', addBookData);
         addDetailsForm.addEventListener('submit', addDetails);
         getAllForm.addEventListener('submit', fetchData);
-        titleForm.addEventListener('submit', ()=> {
+        titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
             const title = titleForm.querySelector('[name=title]').value;
             const url = titleForm.getAttribute('action');
@@ -184,6 +215,7 @@
         <label for="title">Title</label>
         <input type="text" name="title">
         <input type="submit" value="Filter">
+        <!--<section id="titleContent"></section>-->
     </form>
     
     <h3>Fetch Requests</h3>
@@ -194,7 +226,7 @@
         <label for="head">Head</label>
         <input type="radio" name="method" value="HEAD">
         <input type="submit" value="Get JSON">
-        <section id="getDataContent"></section>
+        <!--<section id="getDataContent"></section>-->
     </form>
     <button id="clear">clear</button>
 
