@@ -17,7 +17,7 @@
             content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}`;
         }
 
-        const renderBookDetails = (content, index, book) =>{
+        const renderBookDetails = (content, book) =>{
             const bookContent = document.createElement('div');
             const bookDetails = document.createElement('div');
             bookContent.className = 'bookContent';
@@ -57,8 +57,9 @@
                         content.innerHTML = `<p>No book found</p>`;
                         return;
                     }
-                    for(index in data){
-                        renderBookDetails(content,index, data[index]);
+                    const count =  1;//Object.keys(data).length;
+                    for(let i =0; i < count; i++){
+                        renderBookDetails(content, data); //tests
                     }
                 }
             });
@@ -74,7 +75,7 @@
                     if(type === 'GET'){
                         let data = JSON.parse(resText);
                         for(book in data){
-                            renderBookDetails(content, book, data[book]);
+                            renderBookDetails(content, data[book]);
                     }
                     }else if(type === 'HEAD'){
                         clearBookDetails();
@@ -123,12 +124,12 @@
             };
             fetch(url, options)
                 .then(data => {
-                    /*if(url.includes('/getTitles')){
-                        handleTitleResponse(data);
-                    }else{*/
-                        //this is where you route it to get titles and all the responses
+                    if(url.includes('/getData')){
                         handleGetResponses(data, type);
-                    //}  
+                    }else{
+                        handleTitleResponse(data)
+                    }
+                    //handleGetResponses(data, type);
                 })
                 .catch(err =>{
                     console.log('fetch error: '+ err);
@@ -204,7 +205,7 @@
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
             const title = titleForm.querySelector('[name=title]').value;
-            const url = titleForm.getAttribute('action');
+            let url = titleForm.getAttribute('action');
             url += `?title=${title}`;
             sendFetchRequest(url, 'application/json','GET');
         });
