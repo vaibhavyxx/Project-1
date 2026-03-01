@@ -12,6 +12,52 @@ const respond = (request, response, status, object)=> {
     response.end();    
 }
 
+const getSelectedCountries = (request, response) => {
+    if(!request.query || !request.query.country){
+        const json = {error: 'Title is required'};
+        return respond(request, response, 400, json);
+    }
+    let index = [];
+    for(book in books){
+        const country = request.query.country === books[book]["country"];
+        if(country === true){
+            index.push(books[book]);
+            //break;
+        }
+    }
+    //figure out how the array of countries save these values
+    const countries = index;    //saves the array of countries
+    //books[request.query.title];   //this is broken
+    if(!countries){
+        const json = {error: 'Invalid book'};
+        return respond(request, response, 404, json);
+    }
+    return respond(request, response, 200, title);
+}
+
+//bad practice but can't think of anything else
+const getSelectedAuthors = (request, response) => {
+    if(!request.query || !request.query.author){
+        const json = {error: 'Title is required'};
+        return respond(request, response, 400, json);
+    }
+    let index;
+    for(book in books){
+        const author = request.query.author === books[book]["author"];
+        if(author === true){
+            index = book;
+            break;
+        }
+    }
+    const author = books[index];
+    //books[request.query.title];   //this is broken
+    if(!author){
+        const json = {error: 'Invalid book'};
+        return respond(request, response, 404, json);
+    }
+    return respond(request, response, 200, title);
+}
+
 const getSelectedTitles = (request, response) => {
     if(!request.query || !request.query.title){
         const json = {error: 'Title is required'};
