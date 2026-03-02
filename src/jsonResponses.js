@@ -32,9 +32,9 @@ const getFilteredData = (request, response, requestQuery, queryName) => {
         return respond(request, response, 400, json);
     }
     let indices = [];
-    for(book in books){
-        const filteredItem = requestQuery === books[book][`${queryName}`];
-        if(filteredItem) indices.push(books[book]);
+    for(let index = 0; index < books.length; index++){
+        const filteredItem = requestQuery === books[index][`${queryName}`];
+        if(filteredItem) indices.push(books[index]);
     }
     if(!indices){
         const json = {error: 'Invalid book'};
