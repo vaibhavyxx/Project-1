@@ -96,7 +96,7 @@
                 }
                 renderContentTypes(response, responseContent, message);
                
-                if(response.status === 200 && type === 'GET'){
+                if(response.status === 200){
                     if(type === 'GET'){
                         for(book in data){
                             renderBookDetails(content, data[book]);
@@ -104,6 +104,7 @@
                         showCount(data.length);
                     }else if(type === 'HEAD'){
                         clearBookDetails();
+                        showCount(0);
                     }
                 }
             });
@@ -254,7 +255,6 @@
 <body>
     <h1>XYZ Library</h1>
     <p>Explore XYZ Library's book collections, feel free to donate your books to us! Make sure you're updating our inventory.</p>
-    <!--<h3>Filter</h3>-->
 
     <h2>Access Our Entire Collection</h2>
     <form id="getAllForm" action="/getData">
@@ -269,38 +269,26 @@
     <h2>Looking for Books</h2>
     <p>If you don't remember what you're looking for, use these filter tools to find books!</p>
     <form id="filterCountry" action="/getCountry">
-        <!--<label for="country">Country: </label>-->
         <input type="text" name="country" placeholder="Enter country">
         <input class="formBtn" type="submit" value="Look up!">
     </form>
 
     <form id="filterAuthors" action="/getAuthors">
-        <!--<label for="author">Author: </label>-->
         <input type="text" name="author" placeholder="Enter Author's Name">
         <input class="formBtn" type="submit" value="Look up!">
     </form>
 
     <form id="filterTitleForm" action="/getTitles">
-        <!--<label for="title">Title</label>-->
         <input type="text" name="title" placeholder="Enter title">
         <input class="formBtn" type="submit" value="Look up!">
     </form>
     
     <h2>Looking to Update Our Library</h2>
     <form id="addBookForm" action="/addBook" method="post">
-        <!--<label for="author">Author: </label>-->
         <input id="authorField" type="text" name="author" placeholder="Enter author">
-
-        <!--<label for="link">Link: </label>-->
         <input id="linkField" type="text" name="link" placeholder="Enter book's website link"> <!--new-->
-
-        <!--<label for="title">Title: </label>-->
         <input id="titleField" type="text" name="title" placeholder="Enter title">
-
-        <!--<label for="year">Year: </label>-->
         <input id="yearField" type="number" name="year" placeholder="Enter year of publication">
-
-        <!--<label for="genres">Genres: </label>-->
         <input id="genresField" type="text" name="genres" placeholder="Enter genre">
 
         <select name="dataType" id="dataType">
@@ -315,16 +303,10 @@
     <h2>Add Administrative Details</h2>
     <p>It really helps our inventory by keeping track of where these books were published, in which language and page count. If you find any book with pending information, feel free to update over here.</p>
     <form id="adminForm" action="/addDetails" method="post">
-        <!--<label for="title">Title: </label>-->
+
         <input id="titleField" type="text" placeholder="Enter book's title" name="title" >
-
-        <!--<label for="page">Pages: </label>-->
         <input id="pageField" type="number" min="1" name="page" placeholder="Enter book's page count">
-
-        <!--<label for="country">Country: </label>-->
         <input id="countryField" type="text" name="country" placeholder="Enter the country of origin">
-
-        <!--<label for="language">Language</label>-->
         <input id="languageField" type="text" name="language" placeholder="Enter language the book is written in"> <!--new-->
 
         <select name="dataType" id="dataType">
