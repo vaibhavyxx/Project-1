@@ -3,8 +3,15 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  text-align: center;
+  background-color: #ff9770;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
-
+button, .formBtn{
+  background-color:#fdff70;
+  border-radius: 5px;
+  border-style: none;
+}
 #top {
   text-align: center;
   margin: 0 auto;
@@ -19,15 +26,24 @@ html, body {
  display: flex;
  flex-direction: row;
  flex-wrap: wrap;
+ justify-content: center;
 }
 
-#addBookForm #adminForm{
+#adminForm, #addBookForm{
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  gap: 5px;
-  width: 95%;
-  margin-left: 10px;
+  flex-direction: column;
+  width: 350px;
+  height: max-content;
+  margin-bottom: 5px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+#adminForm input, #adminForm select, #filterCountry input,
+#filterAuthors input, #filterTitleForm input, #addBookForm input, 
+#addBookForm select{
+  padding: 5px;
+  margin: 5px;
 }
 
 .bookDetailsTag ul {
