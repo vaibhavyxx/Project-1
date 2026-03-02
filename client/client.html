@@ -112,6 +112,7 @@
 
         const statusResponse = (status, message, content) => {
             let phrase = "";
+            debugger;
             switch(status){
                 case 200: phrase="Success";
                     break;
@@ -120,6 +121,8 @@
                 case 204: phrase="Updated";
                     break;
                 case 400: phrase="Bad Request";
+                    break;
+                case 404: phrase = "Not Found"; 
                     break;
                 default: phrase="Not implemented";
                     break;

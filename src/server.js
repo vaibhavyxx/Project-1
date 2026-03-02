@@ -8,7 +8,6 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 const urlStruct = {
     '/': htmlHandler.getHTML,
     '/style.css':htmlHandler.getStyle,
-    'notFound':jsonHandler.notFound,
     '/getData':jsonHandler.getData,
     '/getTitles': jsonHandler.getSelectedTitles, 
     '/getAuthors': jsonHandler.getSelectedAuthors,
@@ -56,12 +55,14 @@ const onRequest = (request, response) => {
     const parsedURL = new URL(request.url, `${protocol}://${request.headers.host}`);
 
     request.query = Object.fromEntries(parsedURL.searchParams);
-    //console.log("parsedURL: "+ parsedURL.pathname);
-    if(urlStruct[parsedURL.pathname]) urlStruct[parsedURL.pathname](request, response);
-
     if(request.method === 'POST'){
         handlePost(request, response, parsedURL);
-    } 
+    } else if(urlStruct[parsedURL.pathname]) {
+        urlStruct[parsedURL.pathname](request, response);
+    }else{
+        jsonHandler.notFound(request, response);
+    }
+
 }
 
 http.createServer(onRequest).listen(port);
