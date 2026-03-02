@@ -252,37 +252,38 @@
     </script>
 </head>
 <body>
-    <h1>XYZ Library</h1>
-    <p>Explore XYZ Library's book collections, feel free to donate your books to us! Make sure you're updating our inventory.</p>
+    <h1>Library API</h1>
+    <p>Explore Library API's current book collections, while having access to update inventory.</p>
 
-    <h2>Access Our Entire Collection</h2>
+    <h2>GET/HEAD Requests: Access All Books</h2>
     <form id="getAllForm" action="/getData">
         <label for="get">Get Request</label>
         <input type="radio" name="method" value="GET">
 
         <label for="head">Head Request</label>
         <input type="radio" name="method" value="HEAD">
-        <input class="formBtn" type="submit" value="Get All Books">
+        <input class="formBtn" type="submit" value="Submit">
     </form>
 
-    <h2>Looking for Books</h2>
+    <h2>Filtering Options</h2>
     <p>If you don't remember what you're looking for, use these filter tools to find books!</p>
     <form id="filterCountry" action="/getCountry">
         <input type="text" name="country" placeholder="Enter country">
-        <input class="formBtn" type="submit" value="Look up!">
+        <input class="formBtn" type="submit" value="GET!">
     </form>
 
     <form id="filterAuthors" action="/getAuthors">
         <input type="text" name="author" placeholder="Enter Author's Name">
-        <input class="formBtn" type="submit" value="Look up!">
+        <input class="formBtn" type="submit" value="GET!">
     </form>
 
     <form id="filterTitleForm" action="/getTitles">
         <input type="text" name="title" placeholder="Enter title">
-        <input class="formBtn" type="submit" value="Look up!">
+        <input class="formBtn" type="submit" value="GET!">
     </form>
     
-    <h2>Looking to Update Our Library</h2>
+    <h2>POST Requests</h2>
+    <h3>Add Books</h3>
     <form id="addBookForm" action="/addBook" method="post">
         <input id="authorField" type="text" name="author" placeholder="Enter author">
         <input id="linkField" type="text" name="link" placeholder="Enter book's website link"> <!--new-->
@@ -296,11 +297,10 @@
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
 
-        <input class="formBtn" type="submit" value="Add Book" />
+        <input class="formBtn" type="submit" value="POST" />
     </form>
 
-    <h2>Add Administrative Details</h2>
-    <p>It really helps our inventory by keeping track of where these books were published, in which language and page count. If you find any book with pending information, feel free to update over here.</p>
+    <h3>Add Administrative Details</h3>
     <form id="adminForm" action="/addDetails" method="post">
 
         <input id="titleField" type="text" placeholder="Enter book's title" name="title" >
@@ -314,7 +314,7 @@
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
 
-        <input class="formBtn" type="submit" value="Add Book">
+        <input class="formBtn" type="submit" value="POST">
     </form>
     <button class="formBtn" id="clear">Clear History</button>
 
