@@ -15,7 +15,7 @@
         }
 
         const renderContentTypes = (response, content, message) => {
-            content.innerText = `Response status: ${response.status}, Content Length: ${response.headers.get('content-length')} `;
+            content.innerHTML = `<h2>Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}</h2> `;
             statusResponse(response.status, message, content);
         }
 
@@ -83,7 +83,7 @@
             });
         }
 
-        const handleGetResponses = (response, type) => {
+        /*const handleGetResponses = (response, type) => {
             response.text().then(resText => {
                 const content = document.querySelector('#content');
                 const responseContent = document.querySelector('#response');
@@ -110,7 +110,7 @@
                     showCount(Object.keys(data).length);
                 }
             });
-        }
+        }*/
 
         const statusResponse = (status, message, content) => {
             let phrase = "";
@@ -144,8 +144,8 @@
             };
             fetch(url, options)
                 .then(data => {
-                    debugger;
-                    console.log(`data: ${data}`);
+                    //debugger;
+                    //console.log(`data: ${data}`);
                     /*if(url.includes('/getData')){
                         handleGetResponses(data, type);
                     } else if(url.includes('/getLang')){
@@ -220,12 +220,10 @@
        
         const fetchData = (e) => {
             e.preventDefault();
-            const method = getAllForm.querySelector('input[name="method"]:checked');
-            if(!method){
-                return; //No method selected
-            }
-            const type = method.value;
-            sendFetchRequest(getAllForm.getAttribute('action'), method, type);
+            const type = getAllForm.querySelector('[name=requestType]').value;
+            console.log('type: '+ type);
+            const url = getAllForm.getAttribute('action');
+            sendFetchRequest(url, 'application/json', type);
             return false;
         }
         const addDetails = (e) => {
@@ -251,7 +249,6 @@
         });
         authorForm.addEventListener('submit', (e)=> {
             e.preventDefault();
-            debugger;
             const type = authorForm.querySelector('[name=requestType]').value;
             getSpecificURL(authorForm, 'author', 'application/json', type, 'author');
         });
@@ -273,19 +270,25 @@
     <h1>Library API</h1>
     <p>Explore Library API's current book collections, while having access to update inventory.</p>
 
-    <h2>GET/HEAD Requests: Access All Books</h2>
-    <form id="getAllForm" action="/getData">
-        <label for="get">Get Request</label>
-        <input type="radio" name="method" value="GET">
-
-        <label for="head">Head Request</label>
-        <input type="radio" name="method" value="HEAD">
-        <input class="formBtn" type="submit" value="Submit">
-    </form>
-
-    <h2>Filtering Options</h2>
-    <p>If you don't remember what you're looking for, use these filter tools to find books!</p>
+    <h2>Data</h2>
     <div class="web-forms">
+        <form id="getAllForm" action="/getData">
+            <label>All books </label>
+            <select name="requestType" class="requestType">
+                <option value="">Request Type</option>
+                <option value="GET">GET</option>
+                <option value="HEAD">HEAD</option>
+            </select>
+            <input class="formBtn" type="submit" value="Enter">
+            <!--<label for="get">Get Request</label>
+            <input type="radio" name="method" value="GET">
+
+            <label for="head">Head Request</label>
+            <input type="radio" name="method" value="HEAD">
+            <input class="formBtn" type="submit" value="Submit">-->
+        </form>
+
+
         <form id="filterCountry" action="/getCountry" class="filterForm">
         <input type="text" name="country" placeholder="Enter country">
         

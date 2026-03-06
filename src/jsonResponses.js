@@ -43,13 +43,6 @@ const getFilteredData = (request, response, requestQuery, queryName) => {
     return respond(request, response, 200, indices);
 }
 
-/*const getLanguages = (request, response) => {
-    getFilteredData(request, response, request.query.language, "language");
-}
-const getYear = (request, response) => {
-    getFilteredData(request, response, request.query.year, "year");
-}*/
-
 const getSelectedCountries = (request, response) => {
     getFilteredData(request, response, request.query.country, "country");
 }
