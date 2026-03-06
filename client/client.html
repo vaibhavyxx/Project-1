@@ -323,8 +323,9 @@
     </form>-->
     
     <h2>POST Requests</h2>
-    <h3>Add Books</h3>
-    <form id="addBookForm" action="/addBook" method="post">
+    <div id="post-box">
+        <form id="addBookForm" action="/addBook" method="post">
+        <h3>Add Books</h3>
         <input id="authorField" type="text" name="author" placeholder="Enter author">
         <input id="linkField" type="text" name="link" placeholder="Enter book's website link"> <!--new-->
         <input id="titleField" type="text" name="title" placeholder="Enter title">
@@ -340,9 +341,8 @@
         <input class="formBtn" type="submit" value="POST" />
     </form>
 
-    <h3>Add Administrative Details</h3>
     <form id="adminForm" action="/addDetails" method="post">
-
+         <h3>Add Administrative Details</h3>
         <input id="titleField" type="text" placeholder="Enter book's title" name="title" >
         <input id="pageField" type="number" min="1" name="page" placeholder="Enter book's page count">
         <input id="countryField" type="text" name="country" placeholder="Enter the country of origin">
@@ -356,6 +356,8 @@
 
         <input class="formBtn" type="submit" value="POST">
     </form>
+    </div>
+    
     <button class="formBtn" id="clear">Clear History</button>
 
     <section id="response"></section>

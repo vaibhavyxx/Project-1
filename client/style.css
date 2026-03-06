@@ -33,10 +33,10 @@ button, .formBtn{
   flex-direction: column;
   width: 350px;
   height: max-content;
-  margin-bottom: 5px;
+  /*margin-bottom: 5px;
   justify-content: center;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: auto;*/
 }
 .filterForm{
   padding: 5px;
@@ -57,4 +57,9 @@ button, .formBtn{
   background-color: rgb(186, 223, 255);
   height: max-content;
   margin: 5px;
+}
+#post-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
