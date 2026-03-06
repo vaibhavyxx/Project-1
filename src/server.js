@@ -12,8 +12,8 @@ const urlStruct = {
     '/getTitles': jsonHandler.getSelectedTitles, 
     '/getAuthors': jsonHandler.getSelectedAuthors,
     '/getCountry':jsonHandler.getSelectedCountries,
-    './getYear': jsonHandler.getYear,
-    './getLang': jsonHandler.getLanguages,
+    //'./getYear': jsonHandler.getYear,
+    //'./getLang': jsonHandler.getLanguages,
 }
 
 const parseBody = (request, response, handler) => {
