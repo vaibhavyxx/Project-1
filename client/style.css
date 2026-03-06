@@ -58,7 +58,7 @@ button, .formBtn{
   height: max-content;
   margin: 5px;
 }
-#post-box {
+.web-forms {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

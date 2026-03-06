@@ -106,8 +106,8 @@
                         showCount(data.length);
                     }else if(type === 'HEAD'){
                         clearBookDetails();
-                        showCount(0);
                     }
+                    showCount(Object.keys(data).length);
                 }
             });
         }
@@ -217,9 +217,7 @@
         const titleForm = document.querySelector('#filterTitleForm');
         const authorForm = document.querySelector('#filterAuthors');
         const countryForm = document.querySelector('#filterCountry');
-        //const langForm = document.querySelector('#filterLanguage');
-        //const yearForm = document.querySelector('#filterYear');
-
+       
         const fetchData = (e) => {
             e.preventDefault();
             const method = getAllForm.querySelector('input[name="method"]:checked');
@@ -248,16 +246,18 @@
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
             const type = titleForm.querySelector('[name=requestType]').value;
+            console.log('type: ' + type);
             getSpecificURL(titleForm, 'title', 'application/json', type, 'title')
         });
         authorForm.addEventListener('submit', (e)=> {
             e.preventDefault();
-            const type = titleForm.querySelector('[name=requestType]').value;
+            debugger;
+            const type = authorForm.querySelector('[name=requestType]').value;
             getSpecificURL(authorForm, 'author', 'application/json', type, 'author');
         });
         countryForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const type = titleForm.querySelector('[name=requestType]').value;
+            const type = countryForm.querySelector('[name=requestType]').value;
             getSpecificURL(countryForm, 'country', 'application/json', type, 'country');
         });
 
@@ -285,7 +285,8 @@
 
     <h2>Filtering Options</h2>
     <p>If you don't remember what you're looking for, use these filter tools to find books!</p>
-    <form id="filterCountry" action="/getCountry" class="filterForm">
+    <div class="web-forms">
+        <form id="filterCountry" action="/getCountry" class="filterForm">
         <input type="text" name="country" placeholder="Enter country">
         
         <select name="requestType" class="requestType">
@@ -309,26 +310,17 @@
 
     <form id="filterTitleForm" action="/getTitles" class="filterForm">
         <input type="text" name="title" placeholder="Enter title">
-         <select name="" class="requestType">
-            <option value="requestType">Request Type</option>
+         <select name="requestType" class="requestType">
+            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
         <input class="formBtn" type="submit" value="Enter">
     </form>
-
-    <!--<form id="filterYear" action="/getYear" class="filterForm">
-        <input type="number" name="year" placeholder="Enter Year">
-        <input class="formBtn" type="submit" value="GET">
-    </form>
-
-    <form id="filterLanguage" action="/getLang" class="filterForm">
-        <input type="text" name="lang" placeholder="Enter Language">
-        <input class="formBtn" type="submit" value="GET">
-    </form>-->
+    </div>
     
     <h2>POST Requests</h2>
-    <div id="post-box">
+    <div class="web-forms">
         <form id="addBookForm" action="/addBook" method="post">
         <h3>Add Books</h3>
         <input id="authorField" type="text" name="author" placeholder="Enter author">
