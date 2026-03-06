@@ -144,14 +144,16 @@
             };
             fetch(url, options)
                 .then(data => {
-                    if(url.includes('/getData')){
+                    debugger;
+                    console.log(`data: ${data}`);
+                    /*if(url.includes('/getData')){
                         handleGetResponses(data, type);
                     } else if(url.includes('/getLang')){
                         console.log('this is the end point of language');
                     } else if(url.includes('/getYear')){
                         console.log('this is the end point of year');
                     }
-                    else {
+                    else*/ {
                         handleResponses(data)
                     }
                 })
@@ -215,8 +217,8 @@
         const titleForm = document.querySelector('#filterTitleForm');
         const authorForm = document.querySelector('#filterAuthors');
         const countryForm = document.querySelector('#filterCountry');
-        const langForm = document.querySelector('#filterLanguage');
-        const yearForm = document.querySelector('#filterYear');
+        //const langForm = document.querySelector('#filterLanguage');
+        //const yearForm = document.querySelector('#filterYear');
 
         const fetchData = (e) => {
             e.preventDefault();
@@ -245,15 +247,18 @@
 
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
-            getSpecificURL(titleForm, 'title', 'application/json', 'GET', 'title')
+            const type = titleForm.querySelector('[name=requestType]').value;
+            getSpecificURL(titleForm, 'title', 'application/json', type, 'title')
         });
         authorForm.addEventListener('submit', (e)=> {
             e.preventDefault();
-            getSpecificURL(authorForm, 'author', 'application/json', 'GET', 'author');
+            const type = titleForm.querySelector('[name=requestType]').value;
+            getSpecificURL(authorForm, 'author', 'application/json', type, 'author');
         });
         countryForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            getSpecificURL(countryForm, 'country', 'application/json', 'GET', 'country');
+            const type = titleForm.querySelector('[name=requestType]').value;
+            getSpecificURL(countryForm, 'country', 'application/json', type, 'country');
         });
 
         clearButton.addEventListener('click', ()=> {
@@ -284,7 +289,7 @@
         <input type="text" name="country" placeholder="Enter country">
         
         <select name="requestType" class="requestType">
-            <option value="requestType">Request Type</option>
+            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
@@ -294,7 +299,7 @@
     <form id="filterAuthors" action="/getAuthors" class="filterForm">
         <input type="text" name="author" placeholder="Enter Author's Name">
          <select name="requestType" class="requestType">
-            <option value="requestType">Request Type</option>
+            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
@@ -304,7 +309,7 @@
 
     <form id="filterTitleForm" action="/getTitles" class="filterForm">
         <input type="text" name="title" placeholder="Enter title">
-         <select name="requestType" class="requestType">
+         <select name="" class="requestType">
             <option value="requestType">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
