@@ -4,11 +4,10 @@ html, body {
   margin: 0;
   padding: 0;
   text-align: center;
-  background-color: #ff9770;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 button, .formBtn{
-  background-color:#fdff70;
+  background-color:#ff9770;
   border-radius: 5px;
   border-style: none;
 }
@@ -39,9 +38,7 @@ button, .formBtn{
   margin-left: auto;
   margin-right: auto;
 }
-#adminForm input, #adminForm select, #filterCountry input,
-#filterAuthors input, #filterTitleForm input, #addBookForm input, 
-#addBookForm select{
+.filterForm{
   padding: 5px;
   margin: 5px;
 }

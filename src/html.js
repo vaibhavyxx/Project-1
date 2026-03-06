@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project 1</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    <!--<script src="../src/html.js" type="module"></script>-->
-    <script>
-        const clearBookDetails = () => {
+const clearBookDetails = () => {
             const bookList = document.querySelectorAll('.bookContent'); 
             bookList.forEach(bookItem => {
                 if(bookItem) bookItem.remove();
@@ -37,7 +28,6 @@
                 <li>Country: ${book["country"]}</li>
                 <li>Pages: ${book["pages"]}</li>
                 <li>Language: ${book["language"]}</li>
-                <li>Year of Publication: ${book["year"]}</li>
                 Genres:`;
 
             const genres = book["genres"];
@@ -114,6 +104,7 @@
 
         const statusResponse = (status, message, content) => {
             let phrase = "";
+            debugger;
             switch(status){
                 case 200: phrase="Success";
                     break;
@@ -135,7 +126,6 @@
         };
 
         const sendFetchRequest = (url, acceptedType, type)=>{
-            debugger;
             const options = {
                 method:type,
                 headers:{
@@ -146,12 +136,7 @@
                 .then(data => {
                     if(url.includes('/getData')){
                         handleGetResponses(data, type);
-                    } else if(url.includes('/getLang')){
-                        console.log('this is the end point of language');
-                    } else if(url.includes('/getYear')){
-                        console.log('this is the end point of year');
-                    }
-                    else {
+                    }else {
                         handleResponses(data)
                     }
                 })
@@ -215,8 +200,6 @@
         const titleForm = document.querySelector('#filterTitleForm');
         const authorForm = document.querySelector('#filterAuthors');
         const countryForm = document.querySelector('#filterCountry');
-        const langForm = document.querySelector('#filterLanguage');
-        const yearForm = document.querySelector('#filterYear');
 
         const fetchData = (e) => {
             e.preventDefault();
@@ -224,8 +207,7 @@
             if(!method){
                 return; //No method selected
             }
-            const type = method.value;
-            sendFetchRequest(getAllForm.getAttribute('action'), method, type);
+            sendFetchRequest(getAllForm.getAttribute('action'), method,method.value);
             return false;
         }
         const addDetails = (e) => {
@@ -262,104 +244,3 @@
         });
     };
     window.onload = init;
-    </script>
-</head>
-<body>
-    <h1>Library API</h1>
-    <p>Explore Library API's current book collections, while having access to update inventory.</p>
-
-    <h2>GET/HEAD Requests: Access All Books</h2>
-    <form id="getAllForm" action="/getData">
-        <label for="get">Get Request</label>
-        <input type="radio" name="method" value="GET">
-
-        <label for="head">Head Request</label>
-        <input type="radio" name="method" value="HEAD">
-        <input class="formBtn" type="submit" value="Submit">
-    </form>
-
-    <h2>Filtering Options</h2>
-    <p>If you don't remember what you're looking for, use these filter tools to find books!</p>
-    <form id="filterCountry" action="/getCountry" class="filterForm">
-        <input type="text" name="country" placeholder="Enter country">
-        
-        <select name="requestType" class="requestType">
-            <option value="requestType">Request Type</option>
-            <option value="GET">GET</option>
-            <option value="HEAD">HEAD</option>
-        </select>
-        <input class="formBtn" type="submit" value="Enter">
-    </form>
-
-    <form id="filterAuthors" action="/getAuthors" class="filterForm">
-        <input type="text" name="author" placeholder="Enter Author's Name">
-         <select name="requestType" class="requestType">
-            <option value="requestType">Request Type</option>
-            <option value="GET">GET</option>
-            <option value="HEAD">HEAD</option>
-        </select>
-        <input class="formBtn" type="submit" value="Enter">
-        
-    </form>
-
-    <form id="filterTitleForm" action="/getTitles" class="filterForm">
-        <input type="text" name="title" placeholder="Enter title">
-         <select name="requestType" class="requestType">
-            <option value="requestType">Request Type</option>
-            <option value="GET">GET</option>
-            <option value="HEAD">HEAD</option>
-        </select>
-        <input class="formBtn" type="submit" value="Enter">
-    </form>
-
-    <!--<form id="filterYear" action="/getYear" class="filterForm">
-        <input type="number" name="year" placeholder="Enter Year">
-        <input class="formBtn" type="submit" value="GET">
-    </form>
-
-    <form id="filterLanguage" action="/getLang" class="filterForm">
-        <input type="text" name="lang" placeholder="Enter Language">
-        <input class="formBtn" type="submit" value="GET">
-    </form>-->
-    
-    <h2>POST Requests</h2>
-    <h3>Add Books</h3>
-    <form id="addBookForm" action="/addBook" method="post">
-        <input id="authorField" type="text" name="author" placeholder="Enter author">
-        <input id="linkField" type="text" name="link" placeholder="Enter book's website link"> <!--new-->
-        <input id="titleField" type="text" name="title" placeholder="Enter title">
-        <input id="yearField" type="number" name="year" placeholder="Enter year of publication">
-        <input id="genresField" type="text" name="genres" placeholder="Enter genre">
-
-        <select name="dataType" id="dataType">
-            <option value="">Choose a data type</option>
-            <option value="application/json">JSON</option>
-            <option value="application/x-www-form-urlencoded">URL Encoded</option>
-        </select>
-
-        <input class="formBtn" type="submit" value="POST" />
-    </form>
-
-    <h3>Add Administrative Details</h3>
-    <form id="adminForm" action="/addDetails" method="post">
-
-        <input id="titleField" type="text" placeholder="Enter book's title" name="title" >
-        <input id="pageField" type="number" min="1" name="page" placeholder="Enter book's page count">
-        <input id="countryField" type="text" name="country" placeholder="Enter the country of origin">
-        <input id="languageField" type="text" name="language" placeholder="Enter language the book is written in"> <!--new-->
-
-        <select name="dataType" id="dataType">
-            <option value="">Choose a data type</option>
-            <option value="application/json">JSON</option>
-            <option value="application/x-www-form-urlencoded">URL Encoded</option>
-        </select>
-
-        <input class="formBtn" type="submit" value="POST">
-    </form>
-    <button class="formBtn" id="clear">Clear History</button>
-
-    <section id="response"></section>
-    <section id="content"></section>
-    <footer></footer>
-</body>
-</html>

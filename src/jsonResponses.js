@@ -32,15 +32,22 @@ const getFilteredData = (request, response, requestQuery, queryName) => {
         return respond(request, response, 400, json);
     }
     let indices = [];
-    for(let index = 0; index < books.length; index++){
+    for(let index in books){
         const filteredItem = requestQuery === books[index][`${queryName}`];
         if(filteredItem) indices.push(books[index]);
     }
-    if(!indices){
+    if(indices.length === 0){
         const json = {error: 'Invalid book'};
         return respond(request, response, 404, json);
     }
     return respond(request, response, 200, indices);
+}
+
+const getLanguages = (request, response) => {
+    getFilteredData(request, response, request.query.language, "language");
+}
+const getYear = (request, response) => {
+    getFilteredData(request, response, request.query.year, "year");
 }
 
 const getSelectedCountries = (request, response) => {
@@ -134,4 +141,5 @@ const notFound = (request, response) => {
     return respond(request, response, 404, message);
 }
 
-module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles, getSelectedAuthors, getSelectedCountries};
+module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles, getSelectedAuthors, 
+    getSelectedCountries, getLanguages, getYear};
