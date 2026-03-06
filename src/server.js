@@ -48,6 +48,8 @@ const handlePost = (request, response, parsedURL) => {
         parseBody(request, response, jsonHandler.addBook);
     }else if(parsedURL.pathname === '/addDetails'){
         parseBody(request, response, jsonHandler.addDetails);
+    }else if(parsedURL.pathname === '/addGenres'){
+        parseBody(request, response, jsonHandler.addGenres);
     }
 };
 
@@ -64,7 +66,5 @@ const onRequest = (request, response) => {
     }else{
         jsonHandler.notFound(request, response);
     }
-
 }
-
 http.createServer(onRequest).listen(port);

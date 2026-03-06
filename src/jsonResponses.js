@@ -26,7 +26,7 @@ const respond = (request, response, status, object)=> {
 }
 
 //helper function for getting filtered data
-const getFilteredData = (request, response, requestQuery, queryName) => {
+const singleParamFilter = (request, response, requestQuery, queryName) => {
     if(!request.query || !requestQuery){
         const json = {error: `${queryName} is required`};
         return respond(request, response, 400, json);
@@ -44,15 +44,15 @@ const getFilteredData = (request, response, requestQuery, queryName) => {
 }
 
 const getSelectedCountries = (request, response) => {
-    getFilteredData(request, response, request.query.country, "country");
+    singleParamFilter(request, response, request.query.country, "country");
 }
 
 const getSelectedAuthors = (request, response) => {
-    getFilteredData(request, response, request.query.author, "author");
+    singleParamFilter(request, response, request.query.author, "author");
 }
 
 const getSelectedTitles = (request, response) => {
-    getFilteredData(request, response, request.query.title, "title");
+    singleParamFilter(request, response, request.query.title, "title");
 }
 
 const getData = (request, response) =>{
@@ -129,10 +129,33 @@ const addBook = (request, response) => {
     return respond(request, response, responseCode, {});
 }
 
+const addGenres =(request, response) => {
+    const message =  {message: 'Enter your genre'};
+    const genre = request.body["genres"];
+
+    if(!genre){
+        message.message = 'Bad parameters';
+        return respond(request, response, 400, message);
+    }
+    let responseCode = 204;
+
+    let genres = books["genres"];
+    genres.push(genre);
+    books["genres"] = genres;   //updated content
+
+    if(responseCode === 201){
+        msg.message = "Created successfully";
+        return respond(request, response, responseCode, message);
+    }
+    return respond(request, response, responseCode, {});
+}
+
 const notFound = (request, response) => {
     const message = {message: 'Not Found'};
     return respond(request, response, 404, message);
 }
 
-module.exports = {getData, addBook, addDetails, notFound, getSelectedTitles, getSelectedAuthors, 
+module.exports = {getData, addBook, addDetails, addGenres,
+    notFound, 
+    getSelectedTitles, getSelectedAuthors, 
     getSelectedCountries};
