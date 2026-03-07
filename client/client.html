@@ -13,10 +13,21 @@
                 if(bookItem) bookItem.remove();
             });
         }
+        //removes content header
+        const clearContentType = () => {
+            const h2 = document.querySelectorAll('.resH2');
+            const p = document.querySelectorAll('.resPara');
+            h2.forEach(h => {
+                if(h) h.remove();
+            });
+            p.forEach(pTag => {
+                if(pTag) pTag.remove();
+            });
+        }
 
         const renderContentTypes = (response, content, message) => {
             statusResponse(response.status, message, content);
-            content.innerHTML += `<p>Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}</p> `;   
+            content.innerHTML += `<p class='resPara'>Response status: ${response.status}, Content Length: ${response.headers.get('content-length')}</p> `;   
         }
 
         const showCount = (count) => {
@@ -84,7 +95,7 @@
             });
         }
 
-        /*const handleGetResponses = (response, type) => {
+        const handleGetResponses = (response, type) => {
             response.text().then(resText => {
                 const content = document.querySelector('#content');
                 const responseContent = document.querySelector('#response');
@@ -111,7 +122,7 @@
                     showCount(Object.keys(data).length);
                 }
             });
-        }*/
+        }
 
         const statusResponse = (status, message, content) => {
             let phrase = "";
@@ -129,9 +140,9 @@
                 default: phrase="Not implemented";
                     break;
             }
-            content.innerHTML += `<h2>${phrase}</h2>`;
+            content.innerHTML += `<h2 class='resH2'>${phrase}</h2>`;
            if(message){
-            content.innerHTML += `<p>${message}</p>`;
+            content.innerHTML += `<p class='resPara'>${message}</p>`;
            }
         };
 
@@ -223,11 +234,13 @@
         }
         const addDetails = (e) => {
             e.preventDefault();
+            clearContentType();
             sendPost(addDetailsForm, "addDetails");
             return false;
         }
         const addBookData = (e) => {
             e.preventDefault();
+            clearContentType();
             sendPost(addBookForm, "addData");
             return false;
         }
@@ -237,28 +250,33 @@
         getAllForm.addEventListener('submit', fetchData);
         addGenresForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            clearContentType();
             sendPost(addGenresForm, "addGenres");
             return false;
         });
 
         titleForm.addEventListener('submit', (e)=> {
             e.preventDefault();
+            clearContentType();
             const type = titleForm.querySelector('[name=requestType]').value;
             console.log('type: ' + type);
             getSpecificURL(titleForm, 'title', 'application/json', type, 'title')
         });
         authorForm.addEventListener('submit', (e)=> {
             e.preventDefault();
+            clearContentType();
             const type = authorForm.querySelector('[name=requestType]').value;
             getSpecificURL(authorForm, 'author', 'application/json', type, 'author');
         });
         countryForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            clearContentType();
             const type = countryForm.querySelector('[name=requestType]').value;
             getSpecificURL(countryForm, 'country', 'application/json', type, 'country');
         });
 
         clearButton.addEventListener('click', ()=> {
+            clearContentType();
             clearBookDetails();
             showCount(0);
         });
