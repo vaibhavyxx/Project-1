@@ -132,19 +132,30 @@ const addBook = (request, response) => {
 const addGenres =(request, response) => {
     const message =  {message: 'Enter your genre'};
     const genre = request.body["genres"];
+    const title = request.body["title"];
 
     if(!genre){
         message.message = 'Bad parameters';
         return respond(request, response, 400, message);
     }
     let responseCode = 204;
-
-    let genres = books["genres"];
-    genres.push(genre);
-    books["genres"] = genres;   //updated content
+    let genresArr = null;
+    for(let i in books){
+        if(books[i]["title"] === title){
+            genresArr = books[i]["genres"];
+            //if(!genresArr.includes(genre)){
+                genresArr.push(genre);
+            /*}else{
+                message.message = 'Already added';
+            }*/
+            break;
+        }
+    }
+    books["genres"] = genresArr;   
+    books["title"] = title;
 
     if(responseCode === 201){
-        msg.message = "Created successfully";
+        message.message = "Created successfully";
         return respond(request, response, responseCode, message);
     }
     return respond(request, response, responseCode, {});

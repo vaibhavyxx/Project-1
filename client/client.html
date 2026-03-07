@@ -144,18 +144,7 @@
             };
             fetch(url, options)
                 .then(data => {
-                    //debugger;
-                    //console.log(`data: ${data}`);
-                    /*if(url.includes('/getData')){
-                        handleGetResponses(data, type);
-                    } else if(url.includes('/getLang')){
-                        console.log('this is the end point of language');
-                    } else if(url.includes('/getYear')){
-                        console.log('this is the end point of year');
-                    }
-                    else*/ {
-                        handleResponses(data)
-                    }
+                    handleResponses(data)
                 })
                 .catch(err =>{
                     console.log('fetch error: '+ err);
