@@ -25,6 +25,14 @@ const respond = (request, response, status, object)=> {
     response.end();    
 }
 
+//takes in parameter, case-insensitive
+const containsElement = (query, book) => {
+    book = book.toLowerCase();
+    const phrases = book.split(' ');
+    let val = phrases.find(item => item === query.toLowerCase());
+    return val;
+}
+
 //helper function for getting filtered data
 const singleParamFilter = (request, response, requestQuery, queryName) => {
     if(!request.query || !requestQuery){
@@ -33,7 +41,8 @@ const singleParamFilter = (request, response, requestQuery, queryName) => {
     }
     let indices = [];
     for(let index in books){
-        const filteredItem = requestQuery === books[index][`${queryName}`];
+        const filteredItem = containsElement(requestQuery, books[index][queryName]);
+        //requestQuery === books[index][`${queryName}`]; //this has to change
         if(filteredItem) indices.push(books[index]);
     }
     if(indices.length === 0){

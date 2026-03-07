@@ -226,8 +226,8 @@
        
         const fetchData = (e) => {
             e.preventDefault();
+            clearContentType();
             const type = getAllForm.querySelector('[name=requestType]').value;
-            console.log('type: '+ type);
             const url = getAllForm.getAttribute('action');
             sendFetchRequest(url, 'application/json', type);
             return false;
