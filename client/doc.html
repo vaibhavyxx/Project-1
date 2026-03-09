@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documentation of Project 1</title>
+    
     </head>
     <body>
         <h1>Documentation of Library API</h1>
@@ -164,7 +165,15 @@
             <ul>
                 <li><b>Relative URL:</b> /addBook</li>
                 <li><b>Supported Methods:</b> POST</li>
-                <li><b>Query Params:</b></li>
+                <li><b>Query Params:</b>
+                <ul>
+                    <li>author: name of the writer</li>
+                    <li>link: link of the book's website</li>
+                    <li>title: name of the book</li>
+                    <li>year: year of publication</li>
+                    <li>genres: genre of the book</li>
+                </ul>
+                </li>
                 <li><b>Supported Body Formats:</b> application/json, application/x-www-form-urlencoded</li>
                 <li><b>Endpoint returns and its format:</b>
                 JSON object <br>Format:
@@ -185,7 +194,15 @@
             <ul>
                 <li><b>Relative URL:</b> /addDetails</li>
                 <li><b>Supported Methods:</b> POST</li>
-                <li><b>Query Params:</b></li>
+                <li><b>Query Params:</b>
+                <ul>
+                    <li>country: place of origin of the book</li>
+                    <li>language: language the book is written in</li>
+                    <li>pages: total page count of the book</li>
+                    <li>title: title of the book</li>
+                    <li>year: year of publication</li>
+                </ul>
+                </li>
                 <li><b>Supported Body Formats:</b>application/json, application/x-www-form-urlencoded</li>
                 <li><b>Endpoint returns and its format:</b>
                 JSON object <br>Format:
@@ -211,7 +228,12 @@
             <ul>
                 <li><b>Relative URL:</b> /addGenres</li>
                 <li><b>Supported Methods:</b> POST</li>
-                <li><b>Query Params:</b></li>
+                <li><b>Query Params:</b>
+                <ul>
+                    <li>title: name of the book</li>
+                    <li>genre: genre of the book</li>
+                </ul>
+                </li>
                 <li><b>Supported Body Formats:</b> application/json, application/x-www-form-urlencoded</li>
                 <li><b>Endpoint returns and its format:</b>
                 JSON object <br>Format:
