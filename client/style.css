@@ -3,7 +3,7 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
-  text-align: center;
+  text-align: left;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 button, .formBtn{
@@ -14,6 +14,11 @@ button, .formBtn{
 #top {
   text-align: center;
   margin: 0 auto;
+}
+#clear{
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #top h1 {

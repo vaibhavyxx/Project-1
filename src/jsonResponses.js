@@ -41,7 +41,7 @@ const singleParamFilter = (request, response, requestQuery, queryName) => {
     }
     let indices = [];
     for(let index in books){
-        const filteredItem = containsElement(requestQuery, books[index][queryName]);
+        const filteredItem = containsElement(requestQuery, books[index][queryName]) || requestQuery === books[index][queryName];
         //requestQuery === books[index][`${queryName}`]; //this has to change
         if(filteredItem) indices.push(books[index]);
     }
@@ -143,25 +143,34 @@ const addGenres =(request, response) => {
     const genre = request.body["genres"];
     const title = request.body["title"];
 
-    if(!genre){
+    if(genre == '' || title == ''){
         message.message = 'Bad parameters';
         return respond(request, response, 400, message);
     }
     let responseCode = 204;
     let genresArr = null;
+    let index = -1;
+
     for(let i in books){
         if(books[i]["title"] === title){
             genresArr = books[i]["genres"];
-            //if(!genresArr.includes(genre)){
-                genresArr.push(genre);
-            /*}else{
-                message.message = 'Already added';
-            }*/
+            index = i;
+
+            for(let g in genresArr){
+                 if(genresArr[g] == genre){
+                    message.message = 'Genre already added';
+                    return respond(request, response, 204, message); // ✅ exit early, don't add
+                }
+            }
+
+            genresArr[genresArr.length] = genre[0]; //adds the element
+            books[i]["genres"] = genresArr;
+            responseCode = 201;
             break;
         }
     }
-    books["genres"] = genresArr;   
-    books["title"] = title;
+    books[index]["genres"] = genresArr;   
+    books[index]["title"] = title;
 
     if(responseCode === 201){
         message.message = "Created successfully";

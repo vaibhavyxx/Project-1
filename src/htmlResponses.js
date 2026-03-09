@@ -20,4 +20,5 @@ const getStyle = (request, response) => {
 const getDocs = (request, response) => {
     loadFile(request, response, 'text/html', doc);
 }
+
 module.exports = {getHTML, getStyle, books, getDocs};
