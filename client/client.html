@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1</title>
     <link rel="stylesheet" type="text/css" href="/style.css">
-    <!--<script src="../src/html.js" type="module"></script>-->
     <script>
         const clearBookDetails = () => {
             const bookList = document.querySelectorAll('.bookContent'); 
@@ -286,7 +285,7 @@
 </head>
 <body>
     <h1>Library API</h1>
-    <p>Explore Library API's current book collections, while having access to update inventory.</p>
+    <p><a href="/docs">Documentation</a></p>
 
     <h2>Data</h2>
     <div class="web-forms">
@@ -301,10 +300,10 @@
         </form>
 
         <form id="filterCountry" action="/getCountry" class="filterForm">
+            <label>Get Countries</label>
         <input type="text" name="country" placeholder="Enter country">
         
         <select name="requestType" class="requestType">
-            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
@@ -312,9 +311,9 @@
     </form>
 
     <form id="filterAuthors" action="/getAuthors" class="filterForm">
+        <label>Get Authors</label>
         <input type="text" name="author" placeholder="Enter Author's Name">
          <select name="requestType" class="requestType">
-            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
@@ -323,9 +322,9 @@
     </form>
 
     <form id="filterTitleForm" action="/getTitles" class="filterForm">
+        <label>Get Titles</label>
         <input type="text" name="title" placeholder="Enter title">
          <select name="requestType" class="requestType">
-            <option value="">Request Type</option>
             <option value="GET">GET</option>
             <option value="HEAD">HEAD</option>
         </select>
@@ -344,7 +343,6 @@
         <input id="genresField" type="text" name="genres" placeholder="Enter genre">
 
         <select name="dataType" id="dataType">
-            <option value="">Choose a data type</option>
             <option value="application/json">JSON</option>
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
@@ -360,7 +358,6 @@
         <input id="languageField" type="text" name="language" placeholder="Enter language the book is written in"> <!--new-->
 
         <select name="dataType" id="dataType">
-            <option value="">Choose a data type</option>
             <option value="application/json">JSON</option>
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>
@@ -374,7 +371,6 @@
         <input id="genreField" type="text" name="genre" placeholder="Add genre">
     
         <select name="dataType" id="dataType">
-            <option value="">Choose a data type</option>
             <option value="application/json">JSON</option>
             <option value="application/x-www-form-urlencoded">URL Encoded</option>
         </select>

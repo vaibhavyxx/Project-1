@@ -1,5 +1,6 @@
 const fs = require('fs');   //file system
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);    //loading files synchronously
+const doc = fs.readFileSync(`${__dirname}/../client/doc.html`);
 const style = fs.readFileSync(`${__dirname}/../client/style.css`);
 const jsonString = fs.readFileSync(`${__dirname}/../data/books.json`);
 const books = JSON.parse(jsonString);
@@ -16,5 +17,7 @@ const getHTML = (request, response) => {
 const getStyle = (request, response) => {
     loadFile(request, response, 'text/css', style);
 }
-
-module.exports = {getHTML, getStyle, books};
+const getDocs = (request, response) => {
+    loadFile(request, response, 'text/html', doc);
+}
+module.exports = {getHTML, getStyle, books, getDocs};

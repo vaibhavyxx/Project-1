@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation of Project 1</title>
+    </head>
+    <body>
+        <h1>Documentation of Library API</h1>
+        <p><a href="/">API</a></p>
+        <div class="func">
+            <h2>All Books</h2>
+            <ul>
+                <li><b>Relative URL:</b> /getData</li>
+                <li><b>Supported Methods:</b> GET, HEAD</li>
+                <li><b>Query Params:</b> None</li>
+                <li><b>Body Params:</b></li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {author: string, country: string, language: string, link: string, 
+                        pages: number, title: string, year: number, genres: string}
+                </li>
+                <li><b>Example:</b>
+                    <div class="example">
+                        <ul>
+                            <li>Request: /getData</li>
+                            <li>Result: [{
+                            "author": "Chinua Achebe",
+                            "country": "Nigeria",
+                            "language": "English",
+                            "link": "https://en.wikipedia.org/wiki/Things_Fall_Apart\n",
+                            "pages": 209,
+                            "title": "Things Fall Apart",
+                            "year": 1958,
+                            "genres": [
+                                "Historical Fiction",
+                                "Postcolonial Literature"    
+                            }]</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Get Country</h2>
+            <ul>
+                <li><b>Relative URL:</b> /getCountry</li>
+                <li><b>Supported Methods:</b> GET, HEAD</li>
+                <li><b>Query Params:</b> country - the place of origin of the book</li>
+                <li><b>Body Params:</b></li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {author: string, country: string, language: string, link: string, 
+                        pages: number, title: string, year: number, genres: string}
+                </li>
+                <li><b>Example:</b>
+                <ul>
+                    <li>Request: /getCountry?country=India</li>
+                    <li>Result:
+                        [
+                        {
+                            "author": "Kālidāsa",
+                            "country": "India",
+                            "language": "Sanskrit",
+                            "link": "https://en.wikipedia.org/wiki/Abhij%C3%B1%C4%81na%C5%9B%C4%81kuntalam\n",
+                            "pages": 147,
+                            "title": "The recognition of Shakuntala",
+                            "year": 150,
+                            "genres": [
+                            "Historical Fiction",
+                            "Classical Literature"
+                            ]
+                        }]
+                    </li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Get Authors</h2>
+            <ul>
+                <li><b>Relative URL:</b> /getAuthors</li>
+                <li><b>Supported Methods:</b> GET, HEAD</li>
+                <li><b>Query Params:</b> author - the writer of the book</li>
+                <li><b>Body Params:</b></li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {author: string, country: string, language: string, link: string, 
+                        pages: number, title: string, year: number, genres: string}</li>
+                <li><b>Example:</b>
+                <ul>
+                    <li>Request: /getAuthors?author=emily</li>
+                    <li>Example:
+                        [
+                        {
+                            "author": "Emily Brontë",
+                            "country": "United Kingdom",
+                            "language": "English",
+                            "link": "https://en.wikipedia.org/wiki/Wuthering_Heights\n",
+                            "pages": 342,
+                            "title": "Wuthering Heights",
+                            "year": 1847,
+                            "genres": [
+                            "Gothic Fiction",
+                            "Classic Literature"
+                            ]
+                        }
+                        ]
+                    </li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Get Titles</h2>
+            <ul>
+                <li><b>Relative URL:</b> /getTitles</li>
+                <li><b>Supported Methods:</b> GET, HEAD</li>
+                <li><b>Query Params:</b>title - the name of the book</li>
+                <li><b>Body Params:</b></li>
+                <li><b>Endpoint returns and its format:</b> 
+                    JSON object <br>Format:
+                    {author: string, country: string, language: string, link: string, 
+                        pages: number, title: string, year: number, genres: string}
+                    </li>
+                <li><b>Example:</b>
+                    <ul>
+                        <li>Request: /getTitles?title=book</li>
+                        <li>Example: [
+                            {
+                                "author": "Unknown",
+                                "country": "Achaemenid Empire",
+                                "language": "Hebrew",
+                                "link": "https://en.wikipedia.org/wiki/Book_of_Job\n",
+                                "pages": 176,
+                                "title": "The Book Of Job",
+                                "year": -600,
+                                "genres": [
+                                "Religious Literature",
+                                "Philosophy"
+                                ]
+                            },
+                            {
+                                "author": "Fernando Pessoa",
+                                "country": "Portugal",
+                                "language": "Portuguese",
+                                "link": "https://en.wikipedia.org/wiki/The_Book_of_Disquiet\n",
+                                "pages": 272,
+                                "title": "The Book of Disquiet",
+                                "year": 1928
+                            }
+                            ]
+                    </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Add Books</h2>
+            <ul>
+                <li><b>Relative URL:</b> /addBook</li>
+                <li><b>Supported Methods:</b> POST</li>
+                <li><b>Query Params:</b></li>
+                <li><b>Supported Body Formats:</b> application/json, application/x-www-form-urlencoded</li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {author: string, link: string, title: string, year: number, genres: string}
+                </li>
+                <li><b>Example:</b>
+                <ul>
+                    <li>Request: /addBook</li>
+                    <li>Body: {author: 'author1', link: 'link1', title: 'title1', year: 'year', genres: 'genres1, genres2'}</li>
+                    <li>Result: {author: 'author1', link: 'link1', title: 'title1', year: 'year', genres: 'genres1, genres2'}</li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Add Administrative Details</h2>
+            <ul>
+                <li><b>Relative URL:</b> /addDetails</li>
+                <li><b>Supported Methods:</b> POST</li>
+                <li><b>Query Params:</b></li>
+                <li><b>Supported Body Formats:</b>application/json, application/x-www-form-urlencoded</li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {country: string, language: string, 
+                        pages: number, title: string, year: number}
+                </li>
+                <li><b>Example:</b>
+                    <ul>
+                    <li>Request: /addDetails</li>
+                    <li>Body: {country: 'country', language: 'language', 
+                        pages: 'pages', title: 'title', year: 'year'}</li>
+                    <li>Result:
+                        {author: 'author1', link: 'link1', country: 'country', language: 'language', 
+                        pages: 'pages', title: 'title', year: 'year', genres: 'genres1, genres2}</li>
+                    </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="func">
+            <h2>Add More Genres</h2>
+            <ul>
+                <li><b>Relative URL:</b> /addGenres</li>
+                <li><b>Supported Methods:</b> POST</li>
+                <li><b>Query Params:</b></li>
+                <li><b>Supported Body Formats:</b> application/json, application/x-www-form-urlencoded</li>
+                <li><b>Endpoint returns and its format:</b>
+                JSON object <br>Format:
+                    {title: string, genres: string}
+                </li>
+                <li><b>Example:</b>
+                <ul>
+                    <li>Request: /addGenres</li>
+                    <li>Body: {title: 'title', genres: 'genre3'}</li>
+                    <li>Result:
+                        {author: 'author1', link: 'link1', country: 'country', language: 'language', 
+                        pages: 'pages', title: 'title', year: 'year', genres:['genres1', 'genres2', 'genre3']}</li>
+                    </li>
+                </ul>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>

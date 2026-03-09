@@ -7,13 +7,12 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const urlStruct = {
     '/': htmlHandler.getHTML,
+    '/docs': htmlHandler.getDocs,
     '/style.css':htmlHandler.getStyle,
     '/getData':jsonHandler.getData,
     '/getTitles': jsonHandler.getSelectedTitles, 
     '/getAuthors': jsonHandler.getSelectedAuthors,
     '/getCountry':jsonHandler.getSelectedCountries,
-    //'./getYear': jsonHandler.getYear,
-    //'./getLang': jsonHandler.getLanguages,
 }
 
 const parseBody = (request, response, handler) => {
